@@ -11,6 +11,7 @@
     </head>
     <body>
         <slot />
+        <audio id="audio" src=""></audio>
     </body>
 </html>
 
@@ -23,21 +24,51 @@
 </style>
 
 <script defer>
-    document.getElementById("botao").addEventListener("click", () => {
-        if (contador == 0) {
-            elemento_pai[0].classList.add("select-pai");
-            elemento_filho[0].classList.add("select-filho");
-            contador = 1;
-        } else {
-            elemento_pai[contador - 1].classList.remove("select-pai");
-            elemento_filho[contador - 1].classList.remove("select-filho");
-            elemento_pai[contador].classList.add("select-pai");
-            elemento_filho[contador].classList.add("select-filho");
-            contador += 1;
-        }
+    let cont = 0;
+    let element_parent = document.getElementsByClassName("element-parent");
+    let element_child = document.getElementsByClassName("element-child");
+    let element_audio = document.getElementById("audio");
+
+    document.getElementById("bt-notice").addEventListener("click", () => {
+        document.getElementsByTagName("main")[0].style =
+            "background-image: url('/happy wars.jpg'); background-size: cover; transition: all 1s ease 0s";
+        document.getElementById("container-notice").style = "display: none";
+        setTimeout(() => {
+            document.getElementById("container").classList.remove("hidden");
+            document.getElementById("container").classList.add("visible");
+            element_audio.src = "startup-after-loading.wav";
+            element_audio.play();
+
+            element_parent[0].classList.add("select-small-parent");
+            element_child[0].classList.add("select-small-child");
+            element_child[0].classList.add("select-child");
+            cont = 1;
+        }, 300);
     });
 
-    let contador = 0;
-    let elemento_pai = document.getElementsByClassName("elemento-pai");
-    let elemento_filho = document.getElementsByClassName("elemento-filho");
+    document.getElementById("botao").addEventListener("click", () => {
+        // remove
+        if (element_parent[cont - 1].clientWidth > 500) {
+            element_parent[cont - 1].classList.remove("select-big-parent");
+            element_child[cont - 1].classList.remove("select-big-child");
+        } else {
+            element_parent[cont - 1].classList.remove("select-small-parent");
+            element_child[cont - 1].classList.remove("select-small-child");
+        }
+        element_child[cont - 1].classList.remove("select-child");
+
+        // add
+        if (element_parent[cont].clientWidth > 500) {
+            element_parent[cont].classList.add("select-big-parent");
+            element_child[cont].classList.add("select-big-child");
+            element_child[cont].classList.add("select-child");
+        } else {
+            element_parent[cont].classList.add("select-small-parent");
+            element_child[cont].classList.add("select-small-child");
+            element_child[cont].classList.add("select-child");
+        }
+        element_audio.src = "/tile-hover.wav";
+        element_audio.play();
+        cont += 1;
+    });
 </script>

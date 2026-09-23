@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Element from "../components/Element.astro";
 import "../output.css";
 import "../style.css";
 
@@ -8,115 +9,67 @@ import "../style.css";
 ---
 
 <Layout>
+    <div id="container-notice">
+        <h1>Funciona apenas para computadores</h1>
+        <p>
+            O site foi desenvolvido para computadores e não funciona para
+            celulares
+        </p>
+        <button id="bt-notice">Ok</button>
+    </div>
     <main
-        style="background-image: url('/happy wars.jpg'); background-size: cover;"
+        style="display: none"
         class="w-full min-h-full flex justify-center items-center"
     >
-        <div>
+        <div class="hidden" id="container">
             <nav></nav>
             <button id="botao">Ação</button>
-            <div class="flex justify-center items-center">
-                <div
-                    class="elemento-pai"
-                    style="position: relative; background-color: #018801; width: 260px; height: 195px; border: 2px solid #4ea94f; margin: 3px; "
-                >
-                    <div
-                        class="elemento-filho"
-                        style="display: flex; align-items: center; justify-content: center; height: 100%;"
-                    >
-                        <img
-                            style="width: 90px; height: 90px"
-                            src="/disc-tray.png"
+            <table class="flex justify-center items-center">
+                <tr>
+                    <td>
+                        <Element
+                            Width="260"
+                            Height="195"
+                            Text="Oi"
+                            Icon="/disc-tray.png"
                         />
-                    </div>
-                    <p
-                        style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
-                        class="text-white font-bold"
-                    >
-                        Open Tray
-                    </p>
-                </div>
-                <div
-                    class="elemento-pai"
-                    style="position: relative; background-color: #018801; width: 260px; height: 195px; border: 2px solid #4ea94f; margin: 3px; "
-                >
-                    <div
-                        class="elemento-filho"
-                        style="display: flex; align-items: center; justify-content: center; height: 100%;"
-                    >
-                        <img
-                            style="width: 90px; height: 90px"
-                            src="/disc-tray.png"
+                    </td>
+                    <td rowspan="2" colspan="2">
+                        <Element Width="526" Height="396" Text="Oi" Icon="" />
+                    </td>
+                    <td rowspan="2" colspan="2">
+                        <Element
+                            Width="526"
+                            Height="396"
+                            Text=""
+                            Icon=""
+                            Image="/happy wars.jpg"
                         />
-                    </div>
-                    <p
-                        style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
-                        class="text-white font-bold"
-                    >
-                        Open Tray
-                    </p>
-                </div>
-                <div
-                    class="elemento-pai"
-                    style="position: relative; background-color: #018801; width: 260px; height: 195px; border: 2px solid #4ea94f; margin: 3px; "
-                >
-                    <div
-                        class="elemento-filho"
-                        style="display: flex; align-items: center; justify-content: center; height: 100%;"
-                    >
-                        <img
-                            style="width: 90px; height: 90px"
-                            src="/disc-tray.png"
-                        />
-                    </div>
-                    <p
-                        style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
-                        class="text-white font-bold"
-                    >
-                        Open Tray
-                    </p>
-                </div>
-                <div
-                    class="elemento-pai"
-                    style="position: relative; background-color: #018801; width: 260px; height: 195px; border: 2px solid #4ea94f; margin: 3px; "
-                >
-                    <div
-                        class="elemento-filho"
-                        style="display: flex; align-items: center; justify-content: center; height: 100%;"
-                    >
-                        <img
-                            style="width: 90px; height: 90px"
-                            src="/disc-tray.png"
-                        />
-                    </div>
-                    <p
-                        style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
-                        class="text-white font-bold"
-                    >
-                        Open Tray
-                    </p>
-                </div>
-                <div
-                    class="elemento-pai"
-                    style="position: relative; background-color: #018801; width: 260px; height: 195px; border: 2px solid #4ea94f; margin: 3px; "
-                >
-                    <div
-                        class="elemento-filho"
-                        style="display: flex; align-items: center; justify-content: center; height: 100%;"
-                    >
-                        <img
-                            style="width: 90px; height: 90px"
-                            src="/disc-tray.png"
-                        />
-                    </div>
-                    <p
-                        style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
-                        class="text-white font-bold"
-                    >
-                        Open Tray
-                    </p>
-                </div>
-            </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Element Width="260" Height="195" Text="Oi" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <Element Width="260" Height="195" Text="Oi" />
+                    </td>
+                    <td>
+                        <Element Width="260" Height="195" Text="Oi" />
+                    </td>
+                    <td>
+                        <Element Width="260" Height="195" Text="Oi" />
+                    </td>
+                    <td>
+                        <Element Width="260" Height="195" Text="Oi" />
+                    </td>
+                    <td>
+                        <Element Width="260" Height="195" Text="Oi" />
+                    </td>
+                </tr>
+            </table>
         </div>
     </main>
 </Layout>
