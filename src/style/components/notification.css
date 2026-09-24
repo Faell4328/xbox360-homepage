@@ -1,4 +1,5 @@
 #notification-container{
+    z-index: 99999999;
     position: absolute;
     bottom: 40px;
 

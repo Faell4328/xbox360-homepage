@@ -1,3 +1,7 @@
+main{
+    background-size: cover;
+    transition: all 1s ease 0s
+}
 
 .element-small{
     width: 260px;

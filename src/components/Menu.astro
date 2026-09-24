@@ -1,10 +1,26 @@
 ---
-interface Props {
-    Text: string;
-    Width: string;
-    Height: string;
-}
-const { Text, Width, Height } = Astro.props;
+import "../style/components/menu.css";
 ---
 
-<div></div>
+<div id="menu">
+    <div id="container-menu">
+        <div id="container-menu-elements">
+            <header>
+                <h1>Site exclusivo para computadores</h1>
+            </header>
+            <p>
+                O site foi desenvolvido apenas para computadores, não funcionado
+                em celulares.
+            </p>
+            <p>Você está em um computador?</p>
+            <div id="container-menu-button">
+                <button class="menu-button select-menu-button" id="bt-menu-ok">
+                    Estou em um computador
+                </button>
+                <button class="menu-button" id="bt-menu-no">
+                    Estou em um celular
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

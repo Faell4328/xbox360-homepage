@@ -2,12 +2,12 @@
 <html lang="pt-br">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="generator" content={Astro.generator} />
         <link href="../output.css" rel="stylesheet" />
         <title>Home - XBOX</title>
     </head>
-    <body>
+    <body style="overflow: hidden; user-select: none; cursor: none;">
         <slot />
     </body>
 </html>
@@ -15,12 +15,13 @@
 <style>
     html,
     body {
-        width: 100dvw;
-        height: 100dvh;
+        width: 100vw;
+        height: 100vh;
     }
 </style>
 
 <script defer>
+    let control_menu_open = true;
     const animations = {
         pulse: {
             keyframes: [
@@ -30,10 +31,24 @@
             options: { duration: 500, easing: "ease" },
         },
         expand: {
+            keyframes: [
+                { width: "0px", height: "0px" },
+                { width: "500px", height: "700px" },
+            ],
+            options: { duration: 1000, easing: "ease", fill: "forwards" },
+        },
+        reducer: {
+            keyframes: [
+                { width: "500px", height: "700px" },
+                { width: "0px", height: "0px" },
+            ],
+            options: { duration: 1000, easing: "ease", fill: "forwards" },
+        },
+        expand_x: {
             keyframes: [{ width: "0px" }, { width: "500px" }],
             options: { duration: 1000, easing: "ease" },
         },
-        reducer: {
+        reducer_x: {
             keyframes: [{ width: "500px" }, { width: "0px" }],
             options: { duration: 1000, easing: "ease" },
         },
@@ -43,7 +58,7 @@
                 { opacity: "0", offset: 0.99 },
                 { opacity: "1", offset: 1 },
             ],
-            options: { duration: 1000, easing: "ease" },
+            options: { duration: 1000, easing: "ease", fill: "forwards" },
         },
         hidden: {
             keyframes: [
@@ -51,7 +66,7 @@
                 { opacity: "0", offset: 0.01 },
                 { opacity: "0", offset: 1 },
             ],
-            options: { duration: 1000, easing: "ease" },
+            options: { duration: 1000, easing: "ease", fill: "forwards" },
         },
     };
     let all_elements = [
@@ -76,38 +91,49 @@
     let element_child = document.getElementsByClassName("element-child");
     let undefined_key_cont = 0;
     const sounds = Object.fromEntries(
-        ["tile-hover", "select-a", "startup-after-loading", "notify-popup"].map(
-            (n) => {
-                const a = new Audio(`/${n}.wav`);
-                a.preload = "auto";
-                return [n, a];
-            },
-        ),
+        [
+            "tile-hover.wav",
+            "select-a.mp3",
+            "hud-open.wav",
+            "startup-after-loading.wav",
+            "notify-popup.wav",
+            "guide-hover.wav",
+        ].map((n) => {
+            const a = new Audio(`/${n}`);
+            a.preload = "auto";
+            return [n, a];
+        }),
     );
 
     function notify(text) {
         console.log("Chamou");
 
-        document
-            .getElementById("notification-image")
-            .animate(animations.pulse.keyframes, animations.pulse.options);
-        document
-            .getElementById("notification-container-text")
-            .animate(animations.expand.keyframes, animations.expand.options);
-        document
-            .getElementById("notification-text")
-            .animate(animations.show.keyframes, animations.show.options);
+        setTimeout(() => {
+            document
+                .getElementById("notification-image")
+                .animate(animations.pulse.keyframes, animations.pulse.options);
+            document
+                .getElementById("notification-container-text")
+                .animate(
+                    animations.expand_x.keyframes,
+                    animations.expand_x.options,
+                );
+            document
+                .getElementById("notification-text")
+                .animate(animations.show.keyframes, animations.show.options);
 
-        document.getElementById("notification-container").style = "opacity: 1";
-        document.getElementById("notification-text").innerHTML = text;
-        sounds["notify-popup"].play();
+            document.getElementById("notification-container").style =
+                "opacity: 1";
+            document.getElementById("notification-text").innerHTML = text;
+            sounds["notify-popup.wav"].play();
+        }, 600);
 
         setTimeout(() => {
             document
                 .getElementById("notification-container-text")
                 .animate(
-                    animations.reducer.keyframes,
-                    animations.reducer.options,
+                    animations.reducer_x.keyframes,
+                    animations.reducer_x.options,
                 );
             document
                 .getElementById("notification-text")
@@ -146,162 +172,211 @@
             all_elements[index].childNodes[0].classList.add("select-child");
         }
         if (song) {
-            sounds["tile-hover"].currentTime = 0;
-            sounds["tile-hover"].play();
+            sounds["tile-hover.wav"].currentTime = 0;
+            sounds["tile-hover.wav"].play();
         }
     }
 
     document.addEventListener("keydown", (e) => {
-        console.log(e.key);
-        if (e.key == "ArrowUp") {
-            console.log("para cima");
-
-            if (element_index < 5) {
-                return;
+        if (control_menu_open == true) {
+            let buttons = document.getElementsByClassName("menu-button");
+            if (e.key == "ArrowUp") {
+                if (
+                    buttons[0].classList.contains("select-menu-button") == false
+                ) {
+                    buttons[1].classList.remove("select-menu-button");
+                    buttons[0].classList.add("select-menu-button");
+                    sounds["guide-hover.wav"].currentTime = 0;
+                    sounds["guide-hover.wav"].play();
+                }
+            } else if (e.key == "ArrowDown") {
+                if (
+                    buttons[1].classList.contains("select-menu-button") == false
+                ) {
+                    buttons[0].classList.remove("select-menu-button");
+                    buttons[1].classList.add("select-menu-button");
+                    sounds["guide-hover.wav"].currentTime = 0;
+                    sounds["guide-hover.wav"].play();
+                }
+            } else if (e.key == "a") {
+                sounds["select-a.mp3"].play();
+                if (
+                    buttons[0].classList.contains("select-menu-button") == true
+                ) {
+                    buttons[0].click();
+                } else {
+                    buttons[1].click();
+                }
             }
-
-            if (
-                all_elements[element_index] != all_elements[element_index - 5]
-            ) {
-                select_remove_element(element_index);
-                element_index -= 5;
-                select_add_element(element_index);
-            } else if (
-                all_elements[element_index] !=
-                    all_elements[element_index - 10] &&
-                element_index - 10 > 5
-            ) {
-                select_remove_element(element_index);
-                element_index -= 10;
-                select_add_element(element_index);
-            }
-
-            undefined_key_cont = 0;
-        } else if (e.key == "ArrowDown") {
-            console.log("para baixo");
-
-            if (element_index >= 10) {
-                return;
-            }
-
-            if (
-                all_elements[element_index] != all_elements[element_index + 5]
-            ) {
-                select_remove_element(element_index);
-                element_index += 5;
-                select_add_element(element_index);
-            } else if (
-                all_elements[element_index] !=
-                    all_elements[element_index + 10] &&
-                element_index + 10 > 9
-            ) {
-                select_remove_element(element_index);
-                element_index += 10;
-                select_add_element(element_index);
-            }
-
-            undefined_key_cont = 0;
-        } else if (e.key == "ArrowLeft") {
-            console.log("para esquerda");
-
-            if (
-                element_index == 0 ||
-                element_index == 5 ||
-                element_index == 10
-            ) {
-                return;
-            }
-
-            if (
-                all_elements[element_index] != all_elements[element_index - 1]
-            ) {
-                select_remove_element(element_index);
-                element_index--;
-                select_add_element(element_index);
-            } else if (
-                all_elements[element_index] !=
-                    all_elements[element_index - 2] &&
-                element_index - 2 != -1 &&
-                element_index - 2 != 4 &&
-                element_index - 2 != 9
-            ) {
-                select_remove_element(element_index);
-                element_index -= 2;
-                select_add_element(element_index);
-            }
-            undefined_key_cont = 0;
-        } else if (e.key == "ArrowRight") {
-            console.log("para direita");
-
-            console.log(element_index);
-            if (
-                element_index == 4 ||
-                element_index == 9 ||
-                element_index == 14
-            ) {
-                return;
-            }
-
-            if (
-                all_elements[element_index] != all_elements[element_index + 1]
-            ) {
-                select_remove_element(element_index);
-                element_index++;
-                select_add_element(element_index);
-            } else if (
-                all_elements[element_index] !=
-                    all_elements[element_index + 2] &&
-                element_index + 2 != 5 &&
-                element_index + 2 != 10 &&
-                element_index + 2 != 15
-            ) {
-                select_remove_element(element_index);
-                element_index += 2;
-                select_add_element(element_index);
-            }
-            undefined_key_cont = 0;
-        } else if (e.key == "a") {
-            select_remove_element(element_index, false);
-            setTimeout(() => {
-                console.log("chamou");
-                select_add_element(element_index, false);
-            }, 500);
-
-            if (all_elements[element_index].dataset.redirect) {
-                notify("Você será redirecionado em 6 segundos");
-                setTimeout(() => {
-                    window.location.href =
-                        all_elements[element_index].dataset.redirect;
-                }, 6000);
-            }
-            sounds.currentTime = 0;
-            sounds["select-a"].play();
         } else {
-            undefined_key_cont += 1;
-            if (undefined_key_cont > 5) {
-                alert(
-                    "Você está presionando teclas inválidas, só é permitido as setas e teclas: 'a', 'b', 'x' e 'y'",
-                );
+            if (e.key == "ArrowUp") {
+                console.log("para cima");
+
+                if (element_index < 5) {
+                    return;
+                }
+
+                if (
+                    all_elements[element_index] !=
+                    all_elements[element_index - 5]
+                ) {
+                    select_remove_element(element_index);
+                    element_index -= 5;
+                    select_add_element(element_index);
+                } else if (
+                    all_elements[element_index] !=
+                        all_elements[element_index - 10] &&
+                    element_index - 10 > 5
+                ) {
+                    select_remove_element(element_index);
+                    element_index -= 10;
+                    select_add_element(element_index);
+                }
+
                 undefined_key_cont = 0;
+            } else if (e.key == "ArrowDown") {
+                console.log("para baixo");
+
+                if (element_index >= 10) {
+                    return;
+                }
+
+                if (
+                    all_elements[element_index] !=
+                    all_elements[element_index + 5]
+                ) {
+                    select_remove_element(element_index);
+                    element_index += 5;
+                    select_add_element(element_index);
+                } else if (
+                    all_elements[element_index] !=
+                        all_elements[element_index + 10] &&
+                    element_index + 10 > 9
+                ) {
+                    select_remove_element(element_index);
+                    element_index += 10;
+                    select_add_element(element_index);
+                }
+
+                undefined_key_cont = 0;
+            } else if (e.key == "ArrowLeft") {
+                console.log("para esquerda");
+
+                if (
+                    element_index == 0 ||
+                    element_index == 5 ||
+                    element_index == 10
+                ) {
+                    return;
+                }
+
+                if (
+                    all_elements[element_index] !=
+                    all_elements[element_index - 1]
+                ) {
+                    select_remove_element(element_index);
+                    element_index--;
+                    select_add_element(element_index);
+                } else if (
+                    all_elements[element_index] !=
+                        all_elements[element_index - 2] &&
+                    element_index - 2 != -1 &&
+                    element_index - 2 != 4 &&
+                    element_index - 2 != 9
+                ) {
+                    select_remove_element(element_index);
+                    element_index -= 2;
+                    select_add_element(element_index);
+                }
+                undefined_key_cont = 0;
+            } else if (e.key == "ArrowRight") {
+                console.log("para direita");
+
+                console.log(element_index);
+                if (
+                    element_index == 4 ||
+                    element_index == 9 ||
+                    element_index == 14
+                ) {
+                    return;
+                }
+
+                if (
+                    all_elements[element_index] !=
+                    all_elements[element_index + 1]
+                ) {
+                    select_remove_element(element_index);
+                    element_index++;
+                    select_add_element(element_index);
+                } else if (
+                    all_elements[element_index] !=
+                        all_elements[element_index + 2] &&
+                    element_index + 2 != 5 &&
+                    element_index + 2 != 10 &&
+                    element_index + 2 != 15
+                ) {
+                    select_remove_element(element_index);
+                    element_index += 2;
+                    select_add_element(element_index);
+                }
+                undefined_key_cont = 0;
+            } else if (e.key == "a") {
+                select_remove_element(element_index, false);
+                setTimeout(() => {
+                    console.log("chamou");
+                    select_add_element(element_index, false);
+                }, 500);
+
+                if (all_elements[element_index].dataset.redirect) {
+                    notify("Você será redirecionado em 6 segundos");
+                    setTimeout(() => {
+                        window.location.href =
+                            all_elements[element_index].dataset.redirect;
+                    }, 6000);
+                }
+                sounds.currentTime = 0;
+                sounds["hud-open.wav"].play();
+            } else {
+                undefined_key_cont += 1;
+                if (undefined_key_cont > 5) {
+                    notify(
+                        "Você está presionando teclas inválidas, só é permitido as setas e teclas: 'a', 'b', 'x' e 'y'",
+                    );
+                    undefined_key_cont = 0;
+                }
             }
         }
     });
 
-    document.getElementById("bt-notice").addEventListener("click", () => {
-        document.getElementsByTagName("main")[0].style =
-            "background-image: url('/happy wars.jpg'); background-size: cover; transition: all 1s ease 0s";
-        document.getElementById("container-notice").style = "display: none";
+    document.getElementById("bt-menu-ok").addEventListener("click", () => {
+        sounds.currentTime = 0;
+        sounds["hud-open.wav"].play();
+        document
+            .getElementById("container-menu")
+            .animate(animations.reducer.keyframes, animations.reducer.options);
+        document
+            .getElementById("container-menu-elements")
+            .animate(animations.hidden.keyframes, animations.hidden.options);
+        document.getElementById("container").style = "";
+
         setTimeout(() => {
+            document.getElementsByTagName("main")[0].style =
+                "opacity: 1; background-image: url('/happy wars.jpg');";
+            document.getElementById("menu").style = "display: none";
             document.getElementById("container").classList.remove("hidden");
             document.getElementById("container").classList.add("visible");
             sounds.currentTime = 0;
-            sounds["startup-after-loading"].play();
+            sounds["startup-after-loading.wav"].play();
 
             element_parent[0].classList.add("select-small-parent");
             element_child[0].classList.add("select-small-child");
             element_child[0].classList.add("select-child");
             cont = 1;
-        }, 300);
+            control_menu_open = false;
+        }, 600);
+    });
+    document.getElementById("bt-menu-no").addEventListener("click", () => {
+        window.location.href = "https://www.google.com/search?q=gatinhos";
     });
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -324,6 +399,18 @@
                 all_elements[cont] = element;
             }
             cont++;
+
+            document.getElementsByTagName("main")[0].style =
+                "background-color: #222";
+            document
+                .getElementById("container-menu")
+                .animate(
+                    animations.expand.keyframes,
+                    animations.expand.options,
+                );
+            document
+                .getElementById("container-menu-elements")
+                .animate(animations.show.keyframes, animations.show.options);
         }
     });
 </script>

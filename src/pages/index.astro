@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Menu from "../components/Menu.astro";
 import Element from "../components/Element.astro";
 import Notification from "../components/Notification.astro";
 import "../output.css";
@@ -10,19 +11,10 @@ import "../style/index.css";
 ---
 
 <Layout>
-    <div id="container-notice">
-        <h1>Funciona apenas para computadores</h1>
-        <p>
-            O site foi desenvolvido para computadores e não funciona para
-            celulares
-        </p>
-        <button id="bt-notice">Ok</button>
-    </div>
-    <main
-        style="display: none"
-        class="w-full min-h-full flex justify-center items-center"
-    >
-        <div class="hidden" id="container">
+    <main class="w-full min-h-full flex justify-center items-center">
+        <Notification />
+        <Menu />
+        <div style="display: none;" class="hidden" id="container">
             <nav></nav>
             <table class="flex justify-center items-center">
                 <tr>
@@ -34,7 +26,7 @@ import "../style/index.css";
                     />
                     <Element
                         Class="big"
-                        Text="Oi"
+                        Text="Blog"
                         Icon=""
                         Image=""
                         Redirect="https://rhafaell.com.br"
@@ -58,6 +50,5 @@ import "../style/index.css";
                 </tr>
             </table>
         </div>
-        <Notification Text="oi" />
     </main>
 </Layout>
