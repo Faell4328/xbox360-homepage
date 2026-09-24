@@ -11,7 +11,7 @@ const { Text, Icon, Image, Width, Height } = Astro.props;
 
 <div
     class="element-parent"
-    style=`position: relative; ${Image != "" && "background-image: url(' " + Image + " ');"} background-color: #018801; width: ${Width}px; height: ${Height}px; border: 2px solid #4ea94f; margin: 3px;`
+    style=`position: relative; ${Image != "" ? "background-image: url(' " + Image + " ')" : "background-color: #018801"}; width: ${Width}px; height: ${Height}px; border: 2px solid #4ea94f; margin: 3px;`
 >
     <div
         class="element-child"
