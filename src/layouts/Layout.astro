@@ -3,8 +3,6 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" href="/favicon.ico" />
         <meta name="generator" content={Astro.generator} />
         <link href="../output.css" rel="stylesheet" />
         <title>Home - XBOX</title>
@@ -23,6 +21,39 @@
 </style>
 
 <script defer>
+    const animations = {
+        pulse: {
+            keyframes: [
+                { transform: "scale(0.5, 0.5)" },
+                { transform: "scale(1, 1)" },
+            ],
+            options: { duration: 500, easing: "ease" },
+        },
+        expand: {
+            keyframes: [{ width: "0px" }, { width: "500px" }],
+            options: { duration: 1000, easing: "ease" },
+        },
+        reducer: {
+            keyframes: [{ width: "500px" }, { width: "0px" }],
+            options: { duration: 1000, easing: "ease" },
+        },
+        show: {
+            keyframes: [
+                { opacity: "0", offset: 0 },
+                { opacity: "0", offset: 0.9 },
+                { opacity: "1", offset: 1 },
+            ],
+            options: { duration: 1000, easing: "ease" },
+        },
+        hidden: {
+            keyframes: [
+                { opacity: "1", offset: 0 },
+                { opacity: "0", offset: 0.1 },
+                { opacity: "0", offset: 1 },
+            ],
+            options: { duration: 1000, easing: "ease" },
+        },
+    };
     let all_elements = [
         "",
         "",
@@ -45,12 +76,50 @@
     let element_child = document.getElementsByClassName("element-child");
     let undefined_key_cont = 0;
     const sounds = Object.fromEntries(
-        ["tile-hover", "select-a", "startup-after-loading"].map((n) => {
-            const a = new Audio(`/${n}.wav`);
-            a.preload = "auto";
-            return [n, a];
-        }),
+        ["tile-hover", "select-a", "startup-after-loading", "notify-popup"].map(
+            (n) => {
+                const a = new Audio(`/${n}.wav`);
+                a.preload = "auto";
+                return [n, a];
+            },
+        ),
     );
+
+    function notify(text) {
+        console.log("Chamou");
+
+        document
+            .getElementById("notification-image")
+            .animate(animations.pulse.keyframes, animations.pulse.options);
+        document
+            .getElementById("notification-container-text")
+            .animate(animations.expand.keyframes, animations.expand.options);
+        document
+            .getElementById("notification-text")
+            .animate(animations.show.keyframes, animations.show.options);
+
+        document.getElementById("notification-container").style = "opacity: 1";
+        document.getElementById("notification-text").innerHTML = text;
+        sounds["notify-popup"].play();
+
+        setTimeout(() => {
+            document
+                .getElementById("notification-container-text")
+                .animate(
+                    animations.reducer.keyframes,
+                    animations.reducer.options,
+                );
+            document
+                .getElementById("notification-text")
+                .animate(
+                    animations.hidden.keyframes,
+                    animations.hidden.options,
+                );
+
+            document.getElementById("notification-container").style =
+                "opacity: 0";
+        }, 5000);
+    }
 
     function select_remove_element(index, child = true) {
         if (all_elements[index].className.indexOf("element-big") > 0) {
@@ -196,12 +265,15 @@
             setTimeout(() => {
                 console.log("chamou");
                 select_add_element(element_index, false);
-                if (all_elements[element_index].dataset.redirect) {
-                    window.location.href =
-                        all_elements[element_index].dataset.redirect;
-                }
             }, 500);
 
+            if (all_elements[element_index].dataset.redirect) {
+                notify("Você será redirecionado em 6 segundos");
+                setTimeout(() => {
+                    window.location.href =
+                        all_elements[element_index].dataset.redirect;
+                }, 6000);
+            }
             sounds.currentTime = 0;
             sounds["select-a"].play();
         } else {

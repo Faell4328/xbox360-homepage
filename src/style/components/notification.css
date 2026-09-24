@@ -1,0 +1,97 @@
+#notification-container{
+    position: absolute;
+    bottom: 40px;
+
+    display: flex;
+    align-items: center;
+    width: 500px;
+    height: 70px;
+
+    opacity: 0;
+
+    transition: all 1s ease 0s;
+}
+
+#notification-container-text{
+    display: flex;
+    align-items: center;
+    padding-left: 70px;
+    background-color: #555;
+    border: 1px solid #333;
+    width: 500px;
+    height: 70px;
+    border-radius: 60px;
+}
+
+#notification-text{
+    color: #fff;
+    font-size: 18px;
+    padding: 20px;
+}
+
+.pulse-animation{
+    animation: pulse 0.5s ease 0s 1;
+}
+
+.expand-animation{
+    animation: expand 1s ease 0s 1;
+}
+.reducer-animation{
+    animation: reducer 1s ease 0s 1;
+}
+
+.show-animation{
+    animation: show 1s ease 0s 1;
+}
+.hidden-animation{
+    animation: hidden 1s ease 0s 1;
+}
+
+@keyframes pulse{
+    0%{
+        transform: scale(0.5, 0.5);
+    }
+    100%{
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes expand{
+    from {
+        width: 0px;
+    }
+    to{
+        width: 500px;
+    }
+}
+@keyframes reducer{
+    from {
+        width: 500px;
+    }
+    to{
+        width: 0px;
+    }
+}
+
+@keyframes show{
+    0%{
+        opacity: 0;
+    }
+    90%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes hidden{
+    0%{
+        opacity: 1;
+    }
+    5%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
