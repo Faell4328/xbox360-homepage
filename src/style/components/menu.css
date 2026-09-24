@@ -16,7 +16,6 @@
 }
 
 #container-menu{
-    position: relative;
     width: 0px;
     height: 0px;
 
@@ -42,8 +41,7 @@
 }
 
 #container-menu-button{
-    position: absolute;
-    bottom: 0px;
+    margin-top: 80px;
     width: 100%;
 }
 

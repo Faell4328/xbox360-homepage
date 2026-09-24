@@ -7,7 +7,7 @@
         <link href="../output.css" rel="stylesheet" />
         <title>Home - XBOX</title>
     </head>
-    <body style="overflow: hidden; user-select: none; cursor: none;">
+    <body>
         <slot />
     </body>
 </html>
@@ -15,8 +15,11 @@
 <style>
     html,
     body {
+        overflow: hidden;
         width: 100vw;
         height: 100vh;
+        user-select: none;
+        cursor: none;
     }
 </style>
 
@@ -33,13 +36,13 @@
         expand: {
             keyframes: [
                 { width: "0px", height: "0px" },
-                { width: "500px", height: "700px" },
+                { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
             ],
             options: { duration: 1000, easing: "ease", fill: "forwards" },
         },
         reducer: {
             keyframes: [
-                { width: "500px", height: "700px" },
+                { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
                 { width: "0px", height: "0px" },
             ],
             options: { duration: 1000, easing: "ease", fill: "forwards" },
