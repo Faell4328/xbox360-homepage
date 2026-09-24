@@ -1,3 +1,12 @@
+.element-small{
+    width: 260px;
+    height: 195px;
+}
+.element-big{
+    width: 526px;
+    height: 396px;
+}
+
 .hidden{
     margin-top: 100px;
     opacity: 0;
@@ -6,7 +15,7 @@
 .visible{
     padding-top: 0px;
     opacity: 1;
-    transition: all 2s ease 0s;
+    transition: all 1s ease 0s;
 }
 
 .element-parent{

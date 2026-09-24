@@ -1,30 +1,33 @@
 ---
 interface Props {
+    Class: "big" | "small" | "";
     Text: string;
     Icon: string;
     Image: string;
-    Width: string;
-    Height: string;
+    Redirect?: string;
 }
-const { Text, Icon, Image, Width, Height } = Astro.props;
+const { Class, Text, Icon, Image, Redirect } = Astro.props;
 ---
 
-<div
-    class="element-parent"
-    style=`position: relative; ${Image != "" ? "background-image: url(' " + Image + " ')" : "background-color: #018801"}; width: ${Width}px; height: ${Height}px; border: 2px solid #4ea94f; margin: 3px;`
->
+<td rowspan={Class == "big" ? "2" : "1"} colspan={Class == "big" ? "2" : "1"}>
     <div
-        class="element-child"
-        style="display: flex; align-items: center; justify-content: center; height: 100%;"
+        data-redirect={Redirect}
+        class={"element-parent " + (Class != "" && "element-" + Class)}
+        style=`position: relative; ${Image != "" ? "background-image: url(' " + Image + " ')" : "background-color: #018801"}; border: 2px solid #4ea94f; margin: 3px;`
     >
-        {Icon != "" && <img style="width: 90px; height: 90px" src={Icon} />}
-    </div>
-    {Text != "" && (
-        <p
-            style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
-            class="text-white font-bold"
+        <div
+            class="element-child"
+            style="display: flex; align-items: center; justify-content: center; height: 100%;"
         >
-            {Text}
-        </p>
-    )}
-</div>
+            {Icon != "" && <img style="width: 90px; height: 90px" src={Icon} />}
+        </div>
+        {Text != "" && (
+            <p
+                style="position: absolute; bottom: 10px; left: 10px; font-size: 20px"
+                class="text-white font-bold"
+            >
+                {Text}
+            </p>
+        )}
+    </div>
+</td>

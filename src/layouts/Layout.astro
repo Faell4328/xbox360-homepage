@@ -11,7 +11,6 @@
     </head>
     <body>
         <slot />
-        <audio id="audio" src=""></audio>
     </body>
 </html>
 
@@ -24,10 +23,197 @@
 </style>
 
 <script defer>
-    let cont = 0;
+    let all_elements = [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+    ];
+    let element_index = 0;
     let element_parent = document.getElementsByClassName("element-parent");
     let element_child = document.getElementsByClassName("element-child");
-    let element_audio = document.getElementById("audio");
+    let undefined_key_cont = 0;
+    const sounds = Object.fromEntries(
+        ["tile-hover", "select-a", "startup-after-loading"].map((n) => {
+            const a = new Audio(`/${n}.wav`);
+            a.preload = "auto";
+            return [n, a];
+        }),
+    );
+
+    function select_remove_element(index, child = true) {
+        if (all_elements[index].className.indexOf("element-big") > 0) {
+            all_elements[index].classList.remove("select-big-parent");
+            all_elements[index].classList.remove("select-big-child");
+        } else {
+            all_elements[index].classList.remove("select-small-parent");
+            all_elements[index].classList.remove("select-small-child");
+        }
+
+        if (child) {
+            all_elements[index].childNodes[0].classList.remove("select-child");
+        }
+    }
+
+    function select_add_element(index, song = true) {
+        if (all_elements[index].className.indexOf("element-big") > 0) {
+            all_elements[index].classList.add("select-big-parent");
+            all_elements[index].classList.add("select-big-child");
+            all_elements[index].childNodes[0].classList.add("select-child");
+        } else {
+            all_elements[index].classList.add("select-small-parent");
+            all_elements[index].classList.add("select-small-child");
+            all_elements[index].childNodes[0].classList.add("select-child");
+        }
+        if (song) {
+            sounds["tile-hover"].currentTime = 0;
+            sounds["tile-hover"].play();
+        }
+    }
+
+    document.addEventListener("keydown", (e) => {
+        console.log(e.key);
+        if (e.key == "ArrowUp") {
+            console.log("para cima");
+
+            if (element_index < 5) {
+                return;
+            }
+
+            if (
+                all_elements[element_index] != all_elements[element_index - 5]
+            ) {
+                select_remove_element(element_index);
+                element_index -= 5;
+                select_add_element(element_index);
+            } else if (
+                all_elements[element_index] !=
+                    all_elements[element_index - 10] &&
+                element_index - 10 > 5
+            ) {
+                select_remove_element(element_index);
+                element_index -= 10;
+                select_add_element(element_index);
+            }
+
+            undefined_key_cont = 0;
+        } else if (e.key == "ArrowDown") {
+            console.log("para baixo");
+
+            if (element_index >= 10) {
+                return;
+            }
+
+            if (
+                all_elements[element_index] != all_elements[element_index + 5]
+            ) {
+                select_remove_element(element_index);
+                element_index += 5;
+                select_add_element(element_index);
+            } else if (
+                all_elements[element_index] !=
+                    all_elements[element_index + 10] &&
+                element_index + 10 > 9
+            ) {
+                select_remove_element(element_index);
+                element_index += 10;
+                select_add_element(element_index);
+            }
+
+            undefined_key_cont = 0;
+        } else if (e.key == "ArrowLeft") {
+            console.log("para esquerda");
+
+            if (
+                element_index == 0 ||
+                element_index == 5 ||
+                element_index == 10
+            ) {
+                return;
+            }
+
+            if (
+                all_elements[element_index] != all_elements[element_index - 1]
+            ) {
+                select_remove_element(element_index);
+                element_index--;
+                select_add_element(element_index);
+            } else if (
+                all_elements[element_index] !=
+                    all_elements[element_index - 2] &&
+                element_index - 2 != -1 &&
+                element_index - 2 != 4 &&
+                element_index - 2 != 9
+            ) {
+                select_remove_element(element_index);
+                element_index -= 2;
+                select_add_element(element_index);
+            }
+            undefined_key_cont = 0;
+        } else if (e.key == "ArrowRight") {
+            console.log("para direita");
+
+            console.log(element_index);
+            if (
+                element_index == 4 ||
+                element_index == 9 ||
+                element_index == 14
+            ) {
+                return;
+            }
+
+            if (
+                all_elements[element_index] != all_elements[element_index + 1]
+            ) {
+                select_remove_element(element_index);
+                element_index++;
+                select_add_element(element_index);
+            } else if (
+                all_elements[element_index] !=
+                    all_elements[element_index + 2] &&
+                element_index + 2 != 5 &&
+                element_index + 2 != 10 &&
+                element_index + 2 != 15
+            ) {
+                select_remove_element(element_index);
+                element_index += 2;
+                select_add_element(element_index);
+            }
+            undefined_key_cont = 0;
+        } else if (e.key == "a") {
+            select_remove_element(element_index, false);
+            setTimeout(() => {
+                console.log("chamou");
+                select_add_element(element_index, false);
+                if (all_elements[element_index].dataset.redirect) {
+                    window.location.href =
+                        all_elements[element_index].dataset.redirect;
+                }
+            }, 500);
+
+            sounds.currentTime = 0;
+            sounds["select-a"].play();
+        } else {
+            undefined_key_cont += 1;
+            if (undefined_key_cont > 5) {
+                alert(
+                    "Você está presionando teclas inválidas, só é permitido as setas e teclas: 'a', 'b', 'x' e 'y'",
+                );
+                undefined_key_cont = 0;
+            }
+        }
+    });
 
     document.getElementById("bt-notice").addEventListener("click", () => {
         document.getElementsByTagName("main")[0].style =
@@ -36,8 +222,8 @@
         setTimeout(() => {
             document.getElementById("container").classList.remove("hidden");
             document.getElementById("container").classList.add("visible");
-            element_audio.src = "startup-after-loading.wav";
-            element_audio.play();
+            sounds.currentTime = 0;
+            sounds["startup-after-loading"].play();
 
             element_parent[0].classList.add("select-small-parent");
             element_child[0].classList.add("select-small-child");
@@ -46,29 +232,26 @@
         }, 300);
     });
 
-    document.getElementById("botao").addEventListener("click", () => {
-        // remove
-        if (element_parent[cont - 1].clientWidth > 500) {
-            element_parent[cont - 1].classList.remove("select-big-parent");
-            element_child[cont - 1].classList.remove("select-big-child");
-        } else {
-            element_parent[cont - 1].classList.remove("select-small-parent");
-            element_child[cont - 1].classList.remove("select-small-child");
-        }
-        element_child[cont - 1].classList.remove("select-child");
+    document.addEventListener("DOMContentLoaded", () => {
+        let cont = 0;
 
-        // add
-        if (element_parent[cont].clientWidth > 500) {
-            element_parent[cont].classList.add("select-big-parent");
-            element_child[cont].classList.add("select-big-child");
-            element_child[cont].classList.add("select-child");
-        } else {
-            element_parent[cont].classList.add("select-small-parent");
-            element_child[cont].classList.add("select-small-child");
-            element_child[cont].classList.add("select-child");
+        for (let element of element_parent) {
+            for (var a = 0; a < 15; a++) {
+                if (all_elements[cont] == "") {
+                    break;
+                }
+                cont++;
+            }
+
+            if (element.className.indexOf("element-big") > 0) {
+                all_elements[cont] = element;
+                all_elements[cont + 1] = element;
+                all_elements[cont + 5] = element;
+                all_elements[cont + 6] = element;
+            } else {
+                all_elements[cont] = element;
+            }
+            cont++;
         }
-        element_audio.src = "/tile-hover.wav";
-        element_audio.play();
-        cont += 1;
     });
 </script>
