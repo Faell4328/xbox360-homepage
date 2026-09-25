@@ -38,22 +38,22 @@
                 { width: "0px", height: "0px" },
                 { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
             ],
-            options: { duration: 1000, easing: "ease", fill: "forwards" },
+            options: { duration: 500, easing: "ease", fill: "forwards" },
         },
         reducer: {
             keyframes: [
                 { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
                 { width: "0px", height: "0px" },
             ],
-            options: { duration: 1000, easing: "ease", fill: "forwards" },
+            options: { duration: 500, easing: "ease", fill: "forwards" },
         },
         expand_x: {
             keyframes: [{ width: "0px" }, { width: "500px" }],
-            options: { duration: 1000, easing: "ease" },
+            options: { duration: 500, easing: "ease", fill: "forwards" },
         },
         reducer_x: {
             keyframes: [{ width: "500px" }, { width: "0px" }],
-            options: { duration: 1000, easing: "ease" },
+            options: { duration: 500, easing: "ease", fill: "forwards" },
         },
         show: {
             keyframes: [
@@ -61,7 +61,7 @@
                 { opacity: "0", offset: 0.99 },
                 { opacity: "1", offset: 1 },
             ],
-            options: { duration: 1000, easing: "ease", fill: "forwards" },
+            options: { duration: 500, easing: "ease", fill: "forwards" },
         },
         hidden: {
             keyframes: [
@@ -69,7 +69,15 @@
                 { opacity: "0", offset: 0.01 },
                 { opacity: "0", offset: 1 },
             ],
-            options: { duration: 1000, easing: "ease", fill: "forwards" },
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        flash: {
+            keyframes: [
+                { outline: "1px solid #fff", offset: 0 },
+                { outline: "4px solid #fff", offset: 0.99 },
+                { outline: "none;", offset: 1 },
+            ],
+            options: { duration: 300, easing: "ease" },
         },
     };
     let all_elements = [
@@ -202,6 +210,7 @@
                     sounds["guide-hover.wav"].play();
                 }
             } else if (e.key == "a") {
+                sounds["select-a.mp3"].currentTime = 0;
                 sounds["select-a.mp3"].play();
                 if (
                     buttons[0].classList.contains("select-menu-button") == true
@@ -213,7 +222,12 @@
             }
         } else {
             if (e.key == "ArrowUp") {
-                console.log("para cima");
+                document
+                    .getElementById("btn-xbox-arrows")
+                    .animate(
+                        animations.flash.keyframes,
+                        animations.flash.options,
+                    );
 
                 if (element_index < 5) {
                     return;
@@ -238,7 +252,12 @@
 
                 undefined_key_cont = 0;
             } else if (e.key == "ArrowDown") {
-                console.log("para baixo");
+                document
+                    .getElementById("btn-xbox-arrows")
+                    .animate(
+                        animations.flash.keyframes,
+                        animations.flash.options,
+                    );
 
                 if (element_index >= 10) {
                     return;
@@ -263,7 +282,12 @@
 
                 undefined_key_cont = 0;
             } else if (e.key == "ArrowLeft") {
-                console.log("para esquerda");
+                document
+                    .getElementById("btn-xbox-arrows")
+                    .animate(
+                        animations.flash.keyframes,
+                        animations.flash.options,
+                    );
 
                 if (
                     element_index == 0 ||
@@ -293,9 +317,12 @@
                 }
                 undefined_key_cont = 0;
             } else if (e.key == "ArrowRight") {
-                console.log("para direita");
-
-                console.log(element_index);
+                document
+                    .getElementById("btn-xbox-arrows")
+                    .animate(
+                        animations.flash.keyframes,
+                        animations.flash.options,
+                    );
                 if (
                     element_index == 4 ||
                     element_index == 9 ||
@@ -325,6 +352,12 @@
                 undefined_key_cont = 0;
             } else if (e.key == "a") {
                 select_remove_element(element_index, false);
+                document
+                    .getElementById("btn-xbox-a")
+                    .animate(
+                        animations.flash.keyframes,
+                        animations.flash.options,
+                    );
                 setTimeout(() => {
                     console.log("chamou");
                     select_add_element(element_index, false);
@@ -364,7 +397,7 @@
 
         setTimeout(() => {
             document.getElementsByTagName("main")[0].style =
-                "opacity: 1; background-image: url('/happy wars.jpg');";
+                "opacity: 1; background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent 50%, rgba(0,0,0,0.5)), url('/happy wars.jpg'); background-size: cover;";
             document.getElementById("menu").style = "display: none";
             document.getElementById("container").classList.remove("hidden");
             document.getElementById("container").classList.add("visible");

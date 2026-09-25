@@ -1,6 +1,6 @@
 main{
     background-size: cover;
-    transition: all 1s ease 0s
+    transition: all 0.5s ease 0s;
 }
 
 .element-small{
@@ -20,7 +20,7 @@ main{
 .visible{
     padding-top: 0px;
     opacity: 1;
-    transition: all 1s ease 0s;
+    transition: all 0.5s ease 0s;
 }
 
 .element-parent{
