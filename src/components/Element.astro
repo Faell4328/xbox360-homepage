@@ -15,6 +15,7 @@ const { Class, Text = "", Icon = "", Image = "", Redirect = "" } = Astro.props;
         class={"element-parent " + ("element-" + Class)}
         style=`position: relative; ${Image != "" ? "background-image: url(' " + Image + " '); background-size: cover" : "background-color: #018801"}; border: 2px solid #4ea94f; margin: 3px;`
     >
+        <div class="element-shine"></div>
         <div
             class="element-child"
             style="display: flex; align-items: center; justify-content: center; height: 100%;"

@@ -25,61 +25,6 @@
 
 <script defer>
     let control_menu_open = true;
-    const animations = {
-        pulse: {
-            keyframes: [
-                { transform: "scale(0.5, 0.5)" },
-                { transform: "scale(1, 1)" },
-            ],
-            options: { duration: 500, easing: "ease" },
-        },
-        expand: {
-            keyframes: [
-                { width: "0px", height: "0px" },
-                { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
-            ],
-            options: { duration: 500, easing: "ease", fill: "forwards" },
-        },
-        reducer: {
-            keyframes: [
-                { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
-                { width: "0px", height: "0px" },
-            ],
-            options: { duration: 500, easing: "ease", fill: "forwards" },
-        },
-        expand_x: {
-            keyframes: [{ width: "0px" }, { width: "500px" }],
-            options: { duration: 500, easing: "ease", fill: "forwards" },
-        },
-        reducer_x: {
-            keyframes: [{ width: "500px" }, { width: "0px" }],
-            options: { duration: 500, easing: "ease", fill: "forwards" },
-        },
-        show: {
-            keyframes: [
-                { opacity: "0", offset: 0 },
-                { opacity: "0", offset: 0.99 },
-                { opacity: "1", offset: 1 },
-            ],
-            options: { duration: 500, easing: "ease", fill: "forwards" },
-        },
-        hidden: {
-            keyframes: [
-                { opacity: "1", offset: 0 },
-                { opacity: "0", offset: 0.01 },
-                { opacity: "0", offset: 1 },
-            ],
-            options: { duration: 500, easing: "ease", fill: "forwards" },
-        },
-        flash: {
-            keyframes: [
-                { outline: "1px solid #fff", offset: 0 },
-                { outline: "4px solid #fff", offset: 0.99 },
-                { outline: "none;", offset: 1 },
-            ],
-            options: { duration: 300, easing: "ease" },
-        },
-    };
     let all_elements = [
         "",
         "",
@@ -158,30 +103,34 @@
         }, 5000);
     }
 
-    function select_remove_element(index, child = true) {
-        if (all_elements[index].className.indexOf("element-big") > 0) {
-            all_elements[index].classList.remove("select-big-parent");
-            all_elements[index].classList.remove("select-big-child");
-        } else {
-            all_elements[index].classList.remove("select-small-parent");
-            all_elements[index].classList.remove("select-small-child");
-        }
+    function shine_of(element) {
+        return element.querySelector(".element-shine");
+    }
 
-        if (child) {
-            all_elements[index].childNodes[0].classList.remove("select-child");
-        }
+    function select_remove_element(index) {
+        const element = all_elements[index];
+        const is_big = element.className.indexOf("element-big") > 0;
+        const deselect = is_big
+            ? animations.home_deselect_big
+            : animations.home_deselect_small;
+        element.animate(deselect.keyframes, deselect.options);
+        shine_of(element)?.animate(
+            animations.home_shine_out.keyframes,
+            animations.home_shine_out.options,
+        );
     }
 
     function select_add_element(index, song = true) {
-        if (all_elements[index].className.indexOf("element-big") > 0) {
-            all_elements[index].classList.add("select-big-parent");
-            all_elements[index].classList.add("select-big-child");
-            all_elements[index].childNodes[0].classList.add("select-child");
-        } else {
-            all_elements[index].classList.add("select-small-parent");
-            all_elements[index].classList.add("select-small-child");
-            all_elements[index].childNodes[0].classList.add("select-child");
-        }
+        const element = all_elements[index];
+        const is_big = element.className.indexOf("element-big") > 0;
+        const select = is_big
+            ? animations.home_select_big
+            : animations.home_select_small;
+        element.animate(select.keyframes, select.options);
+        shine_of(element)?.animate(
+            animations.home_shine_in.keyframes,
+            animations.home_shine_in.options,
+        );
         if (song) {
             sounds["tile-hover.wav"].currentTime = 0;
             sounds["tile-hover.wav"].play();
@@ -404,10 +353,16 @@
             sounds.currentTime = 0;
             sounds["startup-after-loading.wav"].play();
 
-            element_parent[0].classList.add("select-small-parent");
-            element_child[0].classList.add("select-small-child");
-            element_child[0].classList.add("select-child");
-            cont = 1;
+            element_parent[0].animate(
+                animations.home_select_small.keyframes,
+                animations.home_select_small.options,
+            );
+            element_parent[0]
+                .querySelector(".element-shine")
+                ?.animate(
+                    animations.home_shine_in.keyframes,
+                    animations.home_shine_in.options,
+                );
             control_menu_open = false;
         }, 600);
     });
