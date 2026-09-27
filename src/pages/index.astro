@@ -1,7 +1,7 @@
 ---
 import Home from "../layouts/Home.astro";
 import Menu from "../components/Menu.astro";
-import Element from "../components/Element.astro";
+import Tile from "../components/Tile.astro";
 import Notification from "../components/Notification.astro";
 import "../output.css";
 import "../style/index.css";
@@ -15,27 +15,27 @@ import "../style/index.css";
             <nav></nav>
             <table class="flex justify-center items-center">
                 <tr>
-                    <Element Class="small" Text="Oi" Icon="/disc-tray.png" />
-                    <Element
+                    <Tile Class="small" Text="Oi" Icon="/disc-tray.png" />
+                    <Tile
                         Class="big"
                         Image="/blog.png"
                         Redirect="https://rhafaell.com.br"
                     />
-                    <Element Class="big" Image="/happy wars.jpg" />
+                    <Tile Class="big" Image="/happy wars.jpg" />
                 </tr>
                 <tr>
-                    <Element
+                    <Tile
                         Class="small"
                         Text="My Favorites Games"
                         Icon="/mygames.png"
                     />
                 </tr>
                 <tr>
-                    <Element Class="small" Text="Oi" />
-                    <Element Class="small" Text="Oi" />
-                    <Element Class="small" Text="Oi" />
-                    <Element Class="small" Text="Oi" />
-                    <Element Class="small" Text="Oi" />
+                    <Tile Class="small" Text="Oi" />
+                    <Tile Class="small" Text="Oi" />
+                    <Tile Class="small" Text="Oi" />
+                    <Tile Class="small" Text="Oi" />
+                    <Tile Class="small" Text="Oi" />
                 </tr>
             </table>
             <footer style="position: relative;">

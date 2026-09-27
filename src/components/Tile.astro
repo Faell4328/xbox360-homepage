@@ -12,12 +12,12 @@ const { Class, Text = "", Icon = "", Image = "", Redirect = "" } = Astro.props;
 <td rowspan={Class == "big" ? "2" : "1"} colspan={Class == "big" ? "2" : "1"}>
     <div
         data-redirect={Redirect}
-        class={"element-parent " + ("element-" + Class)}
+        class={"tile " + ("tile-" + Class)}
         style=`position: relative; ${Image != "" ? "background-image: url(' " + Image + " '); background-size: cover" : "background-color: #018801"}; border: 2px solid #4ea94f; margin: 3px;`
     >
-        <div class="element-shine"></div>
+        <div class="tile-shine"></div>
         <div
-            class="element-child"
+            class="tile-content"
             style="display: flex; align-items: center; justify-content: center; height: 100%;"
         >
             {Icon != "" && (

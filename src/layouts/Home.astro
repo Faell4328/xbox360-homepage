@@ -25,7 +25,7 @@
 
 <script defer>
     let control_menu_open = true;
-    let all_elements = [
+    let tiles = [
         "",
         "",
         "",
@@ -42,9 +42,8 @@
         "",
         "",
     ];
-    let element_index = 0;
-    let element_parent = document.getElementsByClassName("element-parent");
-    let element_child = document.getElementsByClassName("element-child");
+    let tile_index = 0;
+    let tile_nodes = document.getElementsByClassName("tile");
     let undefined_key_cont = 0;
     const sounds = Object.fromEntries(
         [
@@ -104,12 +103,12 @@
     }
 
     function shine_of(element) {
-        return element.querySelector(".element-shine");
+        return element.querySelector(".tile-shine");
     }
 
-    function select_remove_element(index) {
-        const element = all_elements[index];
-        const is_big = element.className.indexOf("element-big") > 0;
+    function deselect_tile(index) {
+        const element = tiles[index];
+        const is_big = element.className.indexOf("tile-big") > 0;
         const deselect = is_big
             ? animations.home_deselect_big
             : animations.home_deselect_small;
@@ -120,9 +119,9 @@
         );
     }
 
-    function select_add_element(index, song = true) {
-        const element = all_elements[index];
-        const is_big = element.className.indexOf("element-big") > 0;
+    function select_tile(index, song = true) {
+        const element = tiles[index];
+        const is_big = element.className.indexOf("tile-big") > 0;
         const select = is_big
             ? animations.home_select_big
             : animations.home_select_small;
@@ -178,25 +177,25 @@
                         animations.flash.options,
                     );
 
-                if (element_index < 5) {
+                if (tile_index < 5) {
                     return;
                 }
 
                 if (
-                    all_elements[element_index] !=
-                    all_elements[element_index - 5]
+                    tiles[tile_index] !=
+                    tiles[tile_index - 5]
                 ) {
-                    select_remove_element(element_index);
-                    element_index -= 5;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index -= 5;
+                    select_tile(tile_index);
                 } else if (
-                    all_elements[element_index] !=
-                        all_elements[element_index - 10] &&
-                    element_index - 10 > 5
+                    tiles[tile_index] !=
+                        tiles[tile_index - 10] &&
+                    tile_index - 10 > 5
                 ) {
-                    select_remove_element(element_index);
-                    element_index -= 10;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index -= 10;
+                    select_tile(tile_index);
                 }
 
                 undefined_key_cont = 0;
@@ -208,25 +207,25 @@
                         animations.flash.options,
                     );
 
-                if (element_index >= 10) {
+                if (tile_index >= 10) {
                     return;
                 }
 
                 if (
-                    all_elements[element_index] !=
-                    all_elements[element_index + 5]
+                    tiles[tile_index] !=
+                    tiles[tile_index + 5]
                 ) {
-                    select_remove_element(element_index);
-                    element_index += 5;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index += 5;
+                    select_tile(tile_index);
                 } else if (
-                    all_elements[element_index] !=
-                        all_elements[element_index + 10] &&
-                    element_index + 10 > 9
+                    tiles[tile_index] !=
+                        tiles[tile_index + 10] &&
+                    tile_index + 10 > 9
                 ) {
-                    select_remove_element(element_index);
-                    element_index += 10;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index += 10;
+                    select_tile(tile_index);
                 }
 
                 undefined_key_cont = 0;
@@ -239,30 +238,30 @@
                     );
 
                 if (
-                    element_index == 0 ||
-                    element_index == 5 ||
-                    element_index == 10
+                    tile_index == 0 ||
+                    tile_index == 5 ||
+                    tile_index == 10
                 ) {
                     return;
                 }
 
                 if (
-                    all_elements[element_index] !=
-                    all_elements[element_index - 1]
+                    tiles[tile_index] !=
+                    tiles[tile_index - 1]
                 ) {
-                    select_remove_element(element_index);
-                    element_index--;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index--;
+                    select_tile(tile_index);
                 } else if (
-                    all_elements[element_index] !=
-                        all_elements[element_index - 2] &&
-                    element_index - 2 != -1 &&
-                    element_index - 2 != 4 &&
-                    element_index - 2 != 9
+                    tiles[tile_index] !=
+                        tiles[tile_index - 2] &&
+                    tile_index - 2 != -1 &&
+                    tile_index - 2 != 4 &&
+                    tile_index - 2 != 9
                 ) {
-                    select_remove_element(element_index);
-                    element_index -= 2;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index -= 2;
+                    select_tile(tile_index);
                 }
                 undefined_key_cont = 0;
             } else if (e.key == "ArrowRight") {
@@ -273,34 +272,34 @@
                         animations.flash.options,
                     );
                 if (
-                    element_index == 4 ||
-                    element_index == 9 ||
-                    element_index == 14
+                    tile_index == 4 ||
+                    tile_index == 9 ||
+                    tile_index == 14
                 ) {
                     return;
                 }
 
                 if (
-                    all_elements[element_index] !=
-                    all_elements[element_index + 1]
+                    tiles[tile_index] !=
+                    tiles[tile_index + 1]
                 ) {
-                    select_remove_element(element_index);
-                    element_index++;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index++;
+                    select_tile(tile_index);
                 } else if (
-                    all_elements[element_index] !=
-                        all_elements[element_index + 2] &&
-                    element_index + 2 != 5 &&
-                    element_index + 2 != 10 &&
-                    element_index + 2 != 15
+                    tiles[tile_index] !=
+                        tiles[tile_index + 2] &&
+                    tile_index + 2 != 5 &&
+                    tile_index + 2 != 10 &&
+                    tile_index + 2 != 15
                 ) {
-                    select_remove_element(element_index);
-                    element_index += 2;
-                    select_add_element(element_index);
+                    deselect_tile(tile_index);
+                    tile_index += 2;
+                    select_tile(tile_index);
                 }
                 undefined_key_cont = 0;
             } else if (e.key == "a") {
-                select_remove_element(element_index, false);
+                deselect_tile(tile_index, false);
                 document
                     .getElementById("btn-xbox-a")
                     .animate(
@@ -309,14 +308,14 @@
                     );
                 setTimeout(() => {
                     console.log("chamou");
-                    select_add_element(element_index, false);
+                    select_tile(tile_index, false);
                 }, 500);
 
-                if (all_elements[element_index].dataset.redirect) {
+                if (tiles[tile_index].dataset.redirect) {
                     notify("Você será redirecionado em 6 segundos");
                     setTimeout(() => {
                         window.location.href =
-                            all_elements[element_index].dataset.redirect;
+                            tiles[tile_index].dataset.redirect;
                     }, 6000);
                 }
                 sounds.currentTime = 0;
@@ -353,12 +352,12 @@
             sounds.currentTime = 0;
             sounds["startup-after-loading.wav"].play();
 
-            element_parent[0].animate(
+            tile_nodes[0].animate(
                 animations.home_select_small.keyframes,
                 animations.home_select_small.options,
             );
-            element_parent[0]
-                .querySelector(".element-shine")
+            tile_nodes[0]
+                .querySelector(".tile-shine")
                 ?.animate(
                     animations.home_shine_in.keyframes,
                     animations.home_shine_in.options,
@@ -373,21 +372,21 @@
     document.addEventListener("DOMContentLoaded", () => {
         let cont = 0;
 
-        for (let element of element_parent) {
+        for (let element of tile_nodes) {
             for (var a = 0; a < 15; a++) {
-                if (all_elements[cont] == "") {
+                if (tiles[cont] == "") {
                     break;
                 }
                 cont++;
             }
 
-            if (element.className.indexOf("element-big") > 0) {
-                all_elements[cont] = element;
-                all_elements[cont + 1] = element;
-                all_elements[cont + 5] = element;
-                all_elements[cont + 6] = element;
+            if (element.className.indexOf("tile-big") > 0) {
+                tiles[cont] = element;
+                tiles[cont + 1] = element;
+                tiles[cont + 5] = element;
+                tiles[cont + 6] = element;
             } else {
-                all_elements[cont] = element;
+                tiles[cont] = element;
             }
             cont++;
 
