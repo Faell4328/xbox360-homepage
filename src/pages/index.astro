@@ -1,16 +1,13 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Home from "../layouts/Home.astro";
 import Menu from "../components/Menu.astro";
 import Element from "../components/Element.astro";
 import Notification from "../components/Notification.astro";
 import "../output.css";
 import "../style/index.css";
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
+<Home>
     <main class="w-full min-h-full flex justify-center items-center">
         <Notification />
         <Menu />
@@ -76,4 +73,4 @@ import "../style/index.css";
             </footer>
         </div>
     </main>
-</Layout>
+</Home>
