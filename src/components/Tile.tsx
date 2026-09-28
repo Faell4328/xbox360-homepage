@@ -1,68 +1,29 @@
-import { forwardRef } from "react";
-
-export interface TileDef {
-  size: "big" | "small";
-  text?: string;
-  icon?: string;
-  image?: string;
-  redirect?: string;
+export interface TileProps {
+    size: 'big' | 'small';
+    text?: string;
+    icon?: string;
+    image?: string;
+    redirect?: string;
+    open?: 'games';
 }
 
-interface TileProps {
-  def: TileDef;
+interface TileViewProps extends TileProps {
+    selected: boolean;
 }
 
-const Tile = forwardRef<HTMLDivElement, TileProps>(({ def }, ref) => {
-  return (
-    <td
-      rowSpan={def.size === "big" ? 2 : 1}
-      colSpan={def.size === "big" ? 2 : 1}
-    >
-      <div
-        ref={ref}
-        data-redirect={def.redirect ?? ""}
-        className={`tile tile-${def.size}`}
-        style={{
-          position: "relative",
-          backgroundImage: def.image ? `url(' ${def.image} ')` : undefined,
-          backgroundSize: def.image ? "cover" : undefined,
-          backgroundColor: def.image ? undefined : "#018801",
-          border: "2px solid #4ea94f",
-          margin: 3,
-        }}
-      >
-        <div className="tile-shine" />
-        <div
-          className="tile-content"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-          }}
-        >
-          {def.icon ? (
-            <img style={{ width: 90, height: 90 }} src={def.icon} />
-          ) : null}
-        </div>
-        {def.text ? (
-          <p
-            style={{
-              position: "absolute",
-              bottom: 10,
-              left: 10,
-              fontSize: 20,
-            }}
-            className="text-white"
-          >
-            {def.text}
-          </p>
-        ) : null}
-      </div>
-    </td>
-  );
-});
-
-Tile.displayName = "Tile";
-
-export default Tile;
+export default function Tile({ size, text, icon, image, selected }: TileViewProps) {
+    return (
+        <td rowSpan={size === 'big' ? 2 : 1} colSpan={size === 'big' ? 2 : 1}>
+            <div
+                className={`tile tile-${size}${selected ? ' tile-selected' : ''}`}
+                style={image ? { backgroundImage: `url('${image}')` } : undefined}
+            >
+                <div className="tile-shine" />
+                <div className="tile-content">
+                    {icon ? <img className="tile-icon" src={icon} /> : null}
+                </div>
+                {text ? <p className="tile-text">{text}</p> : null}
+            </div>
+        </td>
+    );
+}

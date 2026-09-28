@@ -1,78 +1,50 @@
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import { animations } from "./animations";
-import { playSound } from "./sounds";
+import { useEffect, useState } from 'react';
+import { playSound } from './sounds';
 
-export interface NotificationHandle {
-  notify: (text: string) => void;
+interface NotificationProps {
+    message: string;
+    nonce: number;
 }
 
-const Notification = forwardRef<NotificationHandle>((_props, ref) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-  const textContainerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const timeouts = useRef<number[]>([]);
+export default function Notification({ message, nonce }: NotificationProps) {
+    const [visible, setVisible] = useState(false);
 
-  useImperativeHandle(ref, () => ({
-    notify(text: string) {
-      timeouts.current.forEach((id) => clearTimeout(id));
-      timeouts.current = [];
+    useEffect(() => {
+        if (nonce === 0) return;
 
-      const show = window.setTimeout(() => {
-        imageRef.current?.animate(
-          animations.pulse.keyframes,
-          animations.pulse.options,
-        );
-        textContainerRef.current?.animate(
-          animations.expand_x.keyframes,
-          animations.expand_x.options,
-        );
-        textRef.current?.animate(
-          animations.show.keyframes,
-          animations.show.options,
-        );
+        const show = window.setTimeout(() => {
+            setVisible(true);
+            playSound('notify-popup.wav');
+        }, 600);
+        const hide = window.setTimeout(() => setVisible(false), 5000);
 
-        if (containerRef.current) containerRef.current.style.opacity = "1";
-        if (textRef.current) textRef.current.textContent = text;
+        return () => {
+            clearTimeout(show);
+            clearTimeout(hide);
+        };
+    }, [nonce]);
 
-        playSound("notify-popup.wav");
-      }, 600);
-
-      const hide = window.setTimeout(() => {
-        textContainerRef.current?.animate(
-          animations.reducer_x.keyframes,
-          animations.reducer_x.options,
-        );
-        textRef.current?.animate(
-          animations.hidden.keyframes,
-          animations.hidden.options,
-        );
-
-        if (containerRef.current) containerRef.current.style.opacity = "0";
-      }, 5000);
-
-      timeouts.current.push(show, hide);
-    },
-  }));
-
-  return (
-    <div id="notification-container" ref={containerRef}>
-      <img
-        id="notification-image"
-        ref={imageRef}
-        style={{ position: "absolute", marginLeft: -10, width: "auto", height: 85 }}
-        src="/xbox-orb.png"
-        loading="eager"
-      />
-      <div id="notification-container-text" ref={textContainerRef}>
-        <p id="notification-text" ref={textRef}>
-          Oi
-        </p>
-      </div>
-    </div>
-  );
-});
-
-Notification.displayName = "Notification";
-
-export default Notification;
+    return (
+        <div id="notification-container" className={visible ? 'is-visible' : ''}>
+            <img
+                key={`image-${nonce}`}
+                id="notification-image"
+                className={visible ? 'pulse-animation' : ''}
+                src="/xbox-orb.png"
+                loading="eager"
+            />
+            <div
+                key={`text-${nonce}`}
+                id="notification-container-text"
+                className={visible ? 'expand-animation' : 'reducer-animation'}
+            >
+                <p
+                    id="notification-text"
+                    className={visible ? 'show-animation' : 'hidden-animation'}
+                >
+                    {message}
+                </p>
+            </div>
+        </div>
+    );
+}

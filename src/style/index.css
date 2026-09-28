@@ -1,11 +1,60 @@
-@import "tailwindcss";
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+}
 
 html,
 body {
+    line-height: 1.5;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     overflow: hidden;
     width: 100vw;
     height: 100vh;
     user-select: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+}
+
+img,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    border-color: inherit;
+    text-indent: 0;
+}
+
+ol,
+ul,
+menu {
+    list-style: none;
 }
 
 #root {
@@ -13,46 +62,188 @@ body {
     height: 100%;
 }
 
-.dashboard{
+.dashboard {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222;
     background-size: cover;
     transition: all 0.5s ease 0s;
 }
 
-.tile-small{
+.dashboard.has-wallpaper {
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 50%, rgba(0, 0, 0, 0.5)),url("/happy wars.jpg");
+}
+
+.tiles-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tile-small {
     width: 260px;
     height: 195px;
 }
-.tile-big{
+.tile-big {
     width: 526px;
     height: 396px;
 }
 
-.scene-hidden{
+.scene-hidden {
     margin-top: 100px;
     opacity: 0;
+    transition: all 1s ease 0s;
 }
 
-.scene-visible{
+.scene-visible {
     padding-top: 0px;
     opacity: 1;
     transition: all 0.5s ease 0s;
 }
 
-.tile{
-    position: absolute;
-    transition: all 0.5s ease 0s;
-}
-
-.tile-content{
+.tile {
     position: relative;
+    border: 2px solid #4ea94f;
+    margin: 3px;
+    background-color: #018801;
+    background-size: cover;
+    transition: transform 0.5s ease 0s;
+}
+
+.tile-big.tile-selected {
+    transform: scale(1.018, 1.031);
+}
+
+.tile-small.tile-selected {
+    transform: scale(1.057, 1.083);
+}
+
+.tile-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
     transition: all 0.5s ease 0s;
 }
 
-.tile-shine{
+.tile-icon {
+    width: 90px;
+    height: 90px;
+}
+
+.tile-shine {
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 0% 0%, rgba(255,255,255,.45) 0%, rgba(255,255,255,.35) 0%, transparent 35%);
+    background: radial-gradient(
+        circle at 0% 0%,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0.35) 0%,
+        transparent 35%
+    );
     clip-path: polygon(0 0, 0 0, 0 0);
     opacity: 0;
     pointer-events: none;
+    transition:
+        clip-path 0.5s ease 0s,
+        opacity 0.5s ease 0s;
+}
+
+.tile-selected .tile-shine {
+    clip-path: polygon(0 0, 300% 0, 0 300%);
+    opacity: 1;
+}
+
+.tile-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.controls-wrap {
+    position: relative;
+}
+
+.controls {
+    position: absolute;
+    left: 160px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+}
+
+.control {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    gap: 8px;
+}
+
+.control img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+}
+
+.control:first-child img {
+    width: 50px;
+    height: 50px;
+}
+
+.control p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@keyframes btn-flash {
+    0% {
+        outline: 1px solid #fff;
+    }
+    99% {
+        outline: 4px solid #fff;
+    }
+    100% {
+        outline: none;
+    }
+}
+
+@keyframes zoom-in{
+    0%{
+        transform: scale(0.6, 0.6);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+
+@keyframes zoom-out{
+    0%{
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(0.6, 0.6);
+        opacity: 0;
+    }
+}
+
+.btn-flash {
+    animation: btn-flash 0.3s ease 0s;
+}
+
+.zoom-out{
+    animation: zoom-out 0.5s ease 0s forwards;
+}
+
+.zoom-in{
+    animation: zoom-in 0.5s ease 0s forwards;
 }

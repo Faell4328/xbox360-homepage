@@ -13,6 +13,17 @@
     transition: all 1s ease 0s;
 }
 
+#notification-container.is-visible{
+    opacity: 1;
+}
+
+#notification-image{
+    position: absolute;
+    margin-left: -10px;
+    width: auto;
+    height: 85px;
+}
+
 #notification-container-text{
     display: flex;
     align-items: center;
@@ -35,17 +46,17 @@
 }
 
 .expand-animation{
-    animation: expand 1s ease 0s 1;
+    animation: expand 0.5s ease 0s 1 forwards;
 }
 .reducer-animation{
-    animation: reducer 1s ease 0s 1;
+    animation: reducer 0.5s ease 0s 1 forwards;
 }
 
 .show-animation{
-    animation: show 1s ease 0s 1;
+    animation: show 0.5s ease 0s 1 forwards;
 }
 .hidden-animation{
-    animation: hidden 1s ease 0s 1;
+    animation: hidden 0.5s ease 0s 1 forwards;
 }
 
 @keyframes pulse{
