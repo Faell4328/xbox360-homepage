@@ -19,7 +19,6 @@
         width: 100vw;
         height: 100vh;
         user-select: none;
-        cursor: none;
     }
 </style>
 
@@ -187,34 +186,30 @@
         return element.querySelector(".tile-shine");
     }
 
-    function deselect_tile(index, deactivate_shine = true) {
+    function deselect_tile(index) {
         const element = tiles[index];
         const is_big = element.className.indexOf("tile-big") > 0;
         const deselect = is_big
             ? animations.home_deselect_big
             : animations.home_deselect_small;
         element.animate(deselect.keyframes, deselect.options);
-        if (deactivate_shine) {
-            shine_of(element)?.animate(
-                animations.home_shine_out.keyframes,
-                animations.home_shine_out.options,
-            );
-        }
+        shine_of(element)?.animate(
+            animations.home_shine_out.keyframes,
+            animations.home_shine_out.options,
+        );
     }
 
-    function select_tile(index, song = true, activate_shine = true) {
+    function select_tile(index, song = true) {
         const element = tiles[index];
         const is_big = element.className.indexOf("tile-big") > 0;
         const select = is_big
             ? animations.home_select_big
             : animations.home_select_small;
         element.animate(select.keyframes, select.options);
-        if (activate_shine) {
-            shine_of(element)?.animate(
-                animations.home_shine_in.keyframes,
-                animations.home_shine_in.options,
-            );
-        }
+        shine_of(element)?.animate(
+            animations.home_shine_in.keyframes,
+            animations.home_shine_in.options,
+        );
         if (song) {
             sounds["tile-hover.wav"].currentTime = 0;
             sounds["tile-hover.wav"].play();
@@ -360,7 +355,7 @@
                 }
                 undefined_key_cont = 0;
             } else if (e.key == "a") {
-                deselect_tile(tile_index, false);
+                deselect_tile(tile_index);
                 document
                     .getElementById("btn-xbox-a")
                     .animate(
@@ -369,7 +364,7 @@
                     );
                 setTimeout(() => {
                     console.log("chamou");
-                    select_tile(tile_index, false, false);
+                    select_tile(tile_index, false);
                 }, 500);
 
                 if (tiles[tile_index].dataset.redirect) {
