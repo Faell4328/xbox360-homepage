@@ -25,23 +25,104 @@
 
 <script defer>
     let control_menu_open = true;
-    let tiles = [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-    ];
+    const animations = {
+        home_select_big: {
+            keyframes: [
+                { transform: "scale(1, 1)" },
+                { transform: "scale(1.018, 1.031)" },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        home_deselect_big: {
+            keyframes: [
+                { transform: "scale(1.018, 1.031)" },
+                { transform: "scale(1, 1)" },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        home_select_small: {
+            keyframes: [
+                { transform: "scale(1, 1)" },
+                { transform: "scale(1.057, 1.083)" },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        home_deselect_small: {
+            keyframes: [
+                { transform: "scale(1.057, 1.083)" },
+                { transform: "scale(1, 1)" },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        home_shine_in: {
+            keyframes: [
+                { clipPath: "polygon(0 0, 0 0, 0 0)", opacity: 0 },
+                { clipPath: "polygon(0 0, 300% 0, 0 300%)", opacity: 1 },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        home_shine_out: {
+            keyframes: [
+                { clipPath: "polygon(0 0, 300% 0, 0 300%)", opacity: 1 },
+                { clipPath: "polygon(0 0, 0 0, 0 0)", opacity: 0 },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        pulse: {
+            keyframes: [
+                { transform: "scale(0.5, 0.5)" },
+                { transform: "scale(1, 1)" },
+            ],
+            options: { duration: 500, easing: "ease" },
+        },
+        expand: {
+            keyframes: [
+                { width: "0px", height: "0px" },
+                { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        reducer: {
+            keyframes: [
+                { width: "min(500px, calc(100dvw - 80px))", height: "auto" },
+                { width: "0px", height: "0px" },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        expand_x: {
+            keyframes: [{ width: "0px" }, { width: "500px" }],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        reducer_x: {
+            keyframes: [{ width: "500px" }, { width: "0px" }],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        show: {
+            keyframes: [
+                { opacity: "0", offset: 0 },
+                { opacity: "0", offset: 0.99 },
+                { opacity: "1", offset: 1 },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        hidden: {
+            keyframes: [
+                { opacity: "1", offset: 0 },
+                { opacity: "0", offset: 0.01 },
+                { opacity: "0", offset: 1 },
+            ],
+            options: { duration: 500, easing: "ease", fill: "forwards" },
+        },
+        flash: {
+            keyframes: [
+                { outline: "1px solid #fff", offset: 0 },
+                { outline: "4px solid #fff", offset: 0.99 },
+                { outline: "none;", offset: 1 },
+            ],
+            options: { duration: 300, easing: "ease" },
+        },
+    };
+    let tiles = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
     let tile_index = 0;
     let tile_nodes = document.getElementsByClassName("tile");
     let undefined_key_cont = 0;
@@ -106,30 +187,34 @@
         return element.querySelector(".tile-shine");
     }
 
-    function deselect_tile(index) {
+    function deselect_tile(index, deactivate_shine = true) {
         const element = tiles[index];
         const is_big = element.className.indexOf("tile-big") > 0;
         const deselect = is_big
             ? animations.home_deselect_big
             : animations.home_deselect_small;
         element.animate(deselect.keyframes, deselect.options);
-        shine_of(element)?.animate(
-            animations.home_shine_out.keyframes,
-            animations.home_shine_out.options,
-        );
+        if (deactivate_shine) {
+            shine_of(element)?.animate(
+                animations.home_shine_out.keyframes,
+                animations.home_shine_out.options,
+            );
+        }
     }
 
-    function select_tile(index, song = true) {
+    function select_tile(index, song = true, activate_shine = true) {
         const element = tiles[index];
         const is_big = element.className.indexOf("tile-big") > 0;
         const select = is_big
             ? animations.home_select_big
             : animations.home_select_small;
         element.animate(select.keyframes, select.options);
-        shine_of(element)?.animate(
-            animations.home_shine_in.keyframes,
-            animations.home_shine_in.options,
-        );
+        if (activate_shine) {
+            shine_of(element)?.animate(
+                animations.home_shine_in.keyframes,
+                animations.home_shine_in.options,
+            );
+        }
         if (song) {
             sounds["tile-hover.wav"].currentTime = 0;
             sounds["tile-hover.wav"].play();
@@ -181,16 +266,12 @@
                     return;
                 }
 
-                if (
-                    tiles[tile_index] !=
-                    tiles[tile_index - 5]
-                ) {
+                if (tiles[tile_index] != tiles[tile_index - 5]) {
                     deselect_tile(tile_index);
                     tile_index -= 5;
                     select_tile(tile_index);
                 } else if (
-                    tiles[tile_index] !=
-                        tiles[tile_index - 10] &&
+                    tiles[tile_index] != tiles[tile_index - 10] &&
                     tile_index - 10 > 5
                 ) {
                     deselect_tile(tile_index);
@@ -211,16 +292,12 @@
                     return;
                 }
 
-                if (
-                    tiles[tile_index] !=
-                    tiles[tile_index + 5]
-                ) {
+                if (tiles[tile_index] != tiles[tile_index + 5]) {
                     deselect_tile(tile_index);
                     tile_index += 5;
                     select_tile(tile_index);
                 } else if (
-                    tiles[tile_index] !=
-                        tiles[tile_index + 10] &&
+                    tiles[tile_index] != tiles[tile_index + 10] &&
                     tile_index + 10 > 9
                 ) {
                     deselect_tile(tile_index);
@@ -237,24 +314,16 @@
                         animations.flash.options,
                     );
 
-                if (
-                    tile_index == 0 ||
-                    tile_index == 5 ||
-                    tile_index == 10
-                ) {
+                if (tile_index == 0 || tile_index == 5 || tile_index == 10) {
                     return;
                 }
 
-                if (
-                    tiles[tile_index] !=
-                    tiles[tile_index - 1]
-                ) {
+                if (tiles[tile_index] != tiles[tile_index - 1]) {
                     deselect_tile(tile_index);
                     tile_index--;
                     select_tile(tile_index);
                 } else if (
-                    tiles[tile_index] !=
-                        tiles[tile_index - 2] &&
+                    tiles[tile_index] != tiles[tile_index - 2] &&
                     tile_index - 2 != -1 &&
                     tile_index - 2 != 4 &&
                     tile_index - 2 != 9
@@ -271,24 +340,16 @@
                         animations.flash.keyframes,
                         animations.flash.options,
                     );
-                if (
-                    tile_index == 4 ||
-                    tile_index == 9 ||
-                    tile_index == 14
-                ) {
+                if (tile_index == 4 || tile_index == 9 || tile_index == 14) {
                     return;
                 }
 
-                if (
-                    tiles[tile_index] !=
-                    tiles[tile_index + 1]
-                ) {
+                if (tiles[tile_index] != tiles[tile_index + 1]) {
                     deselect_tile(tile_index);
                     tile_index++;
                     select_tile(tile_index);
                 } else if (
-                    tiles[tile_index] !=
-                        tiles[tile_index + 2] &&
+                    tiles[tile_index] != tiles[tile_index + 2] &&
                     tile_index + 2 != 5 &&
                     tile_index + 2 != 10 &&
                     tile_index + 2 != 15
@@ -308,7 +369,7 @@
                     );
                 setTimeout(() => {
                     console.log("chamou");
-                    select_tile(tile_index, false);
+                    select_tile(tile_index, false, false);
                 }, 500);
 
                 if (tiles[tile_index].dataset.redirect) {
