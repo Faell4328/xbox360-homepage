@@ -5,6 +5,7 @@ export const soundNames = [
     'startup-after-loading.wav',
     'notify-popup.wav',
     'guide-hover.wav',
+    'back.mp3',
 ] as const;
 
 export type SoundName = (typeof soundNames)[number];

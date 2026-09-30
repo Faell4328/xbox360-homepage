@@ -7,6 +7,10 @@
     border: 0 solid;
 }
 
+main{
+    position: relative;
+}
+
 html,
 body {
     line-height: 1.5;
@@ -163,10 +167,6 @@ menu {
     left: 10px;
     font-size: 20px;
     color: #fff;
-}
-
-.controls-wrap {
-    position: relative;
 }
 
 .controls {

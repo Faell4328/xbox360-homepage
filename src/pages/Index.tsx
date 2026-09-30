@@ -5,6 +5,7 @@ import Menu from '../components/Menu';
 import Notification from '../components/Notification';
 import { buildGrid, gridRows, move, tileAtCell, type Direction } from '../components/grid';
 import Games from '../components/Games';
+import Buttons from '../components/Buttons';
 
 const TILES: TileProps[] = [
     { size: 'small', text: 'Open Tray', icon: '/disc-tray.png' },
@@ -65,7 +66,7 @@ export default function Dashboard() {
         if (component != 'games') {
             playSound('hud-open.wav');
         } else {
-            playSound('startup-after-loading.wav');
+            playSound('back.mp3');
         }
         setClosing(true);
     }, []);
@@ -157,42 +158,38 @@ export default function Dashboard() {
                     onClosed={finishClose}
                 />
             )}
-            {screen === 'games' && (
-                <Games closing={closing} onClosing={startClose} onClosed={finishClose} />
-            )}
-            <div
-                id="container"
-                className={containerClass}
-                style={screen === 'menu' && !closing ? { display: 'none' } : undefined}
-            >
-                <nav></nav>
-                <table className="tiles-grid">
-                    <tbody>
-                        {LAYOUT.map((rowTiles, row) => (
-                            <tr key={row}>
-                                {rowTiles.map((tile) => (
-                                    <Tile key={tile} {...TILES[tile]} selected={isSelected(tile)} />
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <footer className="controls-wrap">
-                    <div className="controls">
-                        <div className="control">
-                            <img ref={arrowsIconRef} src="/xbox-arrows.png" alt="" />
-                            <p>Setas</p>
-                        </div>
-                        <div className="control">
-                            <img ref={aIconRef} src="/xbox-a.png" alt="" />
-                            <p>Selecionar</p>
-                        </div>
-                        <div className="control">
-                            <img src="/xbox-b.png" alt="" />
-                            <p>Voltar</p>
-                        </div>
-                    </div>
-                </footer>
+            <div>
+                {screen === 'games' && (
+                    <Games closing={closing} onClosing={startClose} onClosed={finishClose} />
+                )}
+                <div
+                    id="container"
+                    className={containerClass}
+                    style={screen === 'menu' && !closing ? { display: 'none' } : undefined}
+                >
+                    <nav></nav>
+                    <table className="tiles-grid">
+                        <tbody>
+                            {LAYOUT.map((rowTiles, row) => (
+                                <tr key={row}>
+                                    {rowTiles.map((tile) => (
+                                        <Tile
+                                            key={tile}
+                                            {...TILES[tile]}
+                                            selected={isSelected(tile)}
+                                        />
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <Buttons
+                    closing={closing}
+                    screen={screen}
+                    arrowsIconRef={arrowsIconRef}
+                    aIconRef={aIconRef}
+                />
             </div>
         </main>
     );
