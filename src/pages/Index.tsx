@@ -136,8 +136,8 @@ export default function Dashboard() {
             ? 'scene-hidden'
             : screen === 'games'
               ? closing
-                  ? 'zoom-in'
-                  : 'zoom-out'
+                  ? 'zoom-out'
+                  : 'zoom-in'
               : closing
                 ? 'scene-hidden'
                 : 'scene-visible';
