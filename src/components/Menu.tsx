@@ -51,8 +51,8 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
                     </header>
                     <p>
                         O site foi desenvolvido apenas para computadores, não funciona para
-                        dispositivos moveis (celulares e tablets). O layout irá ficar quebrado e
-                        bugado.
+                        dispositivos moveis (celulares e tablets). O layout irá ficar quebrado e a
+                        navegação é feita usando o teclado.
                     </p>
                     <p>Você está em um computador?</p>
                     <div id="container-menu-button">
