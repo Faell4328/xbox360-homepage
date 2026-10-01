@@ -69,6 +69,7 @@ interface GamesProps {
 }
 
 export default function GameList({ closing, onClosing, onClosed, bIconRef }: GamesProps) {
+    const listGameRef = useRef<HTMLDivElement | null>(null);
     const selectedGameRef = useRef(0);
     const [selectedGame, setSelectedGame] = useState<number>(0);
     const [translate, setTranslate] = useState<number>(0);
@@ -81,9 +82,18 @@ export default function GameList({ closing, onClosing, onClosed, bIconRef }: Gam
     }, []);
 
     useEffect(() => {
-        if (selectedGameRef.current % 2 == 0) {
-            setTranslate((selectedGameRef.current / 2) * 30 * -1);
-        }
+        const STEP = 400; // 380 (card) + 20 (gap)
+        const PADDING = 120; // padding: 60px em .games-page
+
+        const visibleArea = window.innerWidth - PADDING;
+        const visible = Math.max(1, Math.floor((visibleArea + 20) / STEP));
+
+        const page = Math.floor(selectedGameRef.current / visible);
+        const totalWidth = GAMES.length * STEP - 20;
+        const maxScroll = Math.max(0, totalWidth - visibleArea);
+
+        const target = Math.min(page * visible * STEP, maxScroll);
+        setTranslate(-target);
     }, [selectedGame]);
 
     useEffect(() => {
@@ -116,7 +126,8 @@ export default function GameList({ closing, onClosing, onClosed, bIconRef }: Gam
             }}
         >
             <div
-                style={{ transform: `translateX(${translate}dvw)` }}
+                ref={listGameRef}
+                style={{ transform: `translateX(${translate}px)` }}
                 className="game-list-container"
             >
                 {GAMES.map((value, index) => (
