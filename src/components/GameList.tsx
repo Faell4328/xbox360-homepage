@@ -81,8 +81,8 @@ export default function GameList({ closing, onClosing, onClosed, bIconRef }: Gam
     }, []);
 
     useEffect(() => {
-        if (selectedGameRef.current % 3 == 0) {
-            setTranslate((selectedGameRef.current / 3) * 50 * -1);
+        if (selectedGameRef.current % 2 == 0) {
+            setTranslate((selectedGameRef.current / 2) * 30 * -1);
         }
     }, [selectedGame]);
 
