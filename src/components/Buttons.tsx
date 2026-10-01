@@ -7,9 +7,16 @@ interface ButtonsProps {
     screen: Screen;
     arrowsIconRef: RefObject<HTMLImageElement | null>;
     aIconRef: RefObject<HTMLImageElement | null>;
+    bIconRef: RefObject<HTMLImageElement | null>;
 }
 
-export default function Buttons({ closing, screen, arrowsIconRef, aIconRef }: ButtonsProps) {
+export default function Buttons({
+    closing,
+    screen,
+    arrowsIconRef,
+    aIconRef,
+    bIconRef,
+}: ButtonsProps) {
     return (
         <footer
             className={`controls-wrap ${closing == true && screen == 'menu' ? 'show-animation' : undefined}`}
@@ -30,7 +37,7 @@ export default function Buttons({ closing, screen, arrowsIconRef, aIconRef }: Bu
                     style={{ display: screen !== 'games' ? 'none' : undefined }}
                     className="control"
                 >
-                    <img src="/xbox-b.png" alt="" />
+                    <img ref={bIconRef} src="/xbox-b.png" alt="" />
                     <p>Voltar</p>
                 </div>
             </div>

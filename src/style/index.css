@@ -170,12 +170,12 @@ menu {
 }
 
 .controls {
-    position: absolute;
+    position: fixed;
     left: 160px;
+    bottom: 40px;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 40px;
 }
 
 .control {

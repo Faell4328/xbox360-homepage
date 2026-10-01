@@ -4,7 +4,7 @@ import Tile, { type TileProps } from '../components/Tile';
 import Menu from '../components/Menu';
 import Notification from '../components/Notification';
 import { buildGrid, gridRows, move, tileAtCell, type Direction } from '../components/grid';
-import Games from '../components/Games';
+import GameList from '../components/GameList';
 import Buttons from '../components/Buttons';
 
 const TILES: TileProps[] = [
@@ -48,6 +48,7 @@ export default function Dashboard() {
 
     const arrowsIconRef = useRef<HTMLImageElement>(null);
     const aIconRef = useRef<HTMLImageElement>(null);
+    const bIconRef = useRef<HTMLImageElement>(null);
     const invalidKeyCount = useRef(0);
     const aPressTimeout = useRef<number | undefined>(undefined);
 
@@ -160,7 +161,12 @@ export default function Dashboard() {
             )}
             <div>
                 {screen === 'games' && (
-                    <Games closing={closing} onClosing={startClose} onClosed={finishClose} />
+                    <GameList
+                        closing={closing}
+                        onClosing={startClose}
+                        onClosed={finishClose}
+                        bIconRef={bIconRef}
+                    />
                 )}
                 <div
                     id="container"
@@ -189,6 +195,7 @@ export default function Dashboard() {
                     screen={screen}
                     arrowsIconRef={arrowsIconRef}
                     aIconRef={aIconRef}
+                    bIconRef={bIconRef}
                 />
             </div>
         </main>
