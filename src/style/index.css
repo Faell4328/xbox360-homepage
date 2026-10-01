@@ -78,7 +78,7 @@ menu {
 }
 
 .dashboard.has-wallpaper {
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 50%, rgba(0, 0, 0, 0.5)),url("/happy wars.jpg");
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 50%, rgba(0, 0, 0, 0.5)),url("/bg-happy-wars.jpg");
 }
 
 .tiles-grid {
