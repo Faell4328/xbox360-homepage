@@ -7,10 +7,12 @@ const GAMES = [
     {
         name: 'Minecraft',
         image: 'minecraft.jpeg',
+        icon: 'xbox',
     },
     {
         name: 'Happy Wars',
         image: 'happy-wars.jpg',
+        icon: 'xbox',
     },
 ];
 
@@ -77,6 +79,7 @@ export default function GameList({ closing, onClosing, onClosed, bIconRef }: Gam
                         key={index}
                         img={`/games/${value.image}`}
                         name={value.name}
+                        icon={value.icon}
                         selected={selectedGame == index}
                     />
                 ))}

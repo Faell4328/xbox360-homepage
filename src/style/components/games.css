@@ -23,6 +23,7 @@
 }
 
 .game-container{
+    position: relative;
     width: 380px;
     height: 480px;
     flex-shrink: 0;
@@ -37,10 +38,19 @@
     font-size: 22px;
 }
 
-.game-container img{
+.game-image{
     object-fit: cover;
     width: 340px;
     height: 340px;
+}
+
+.game-icon{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    width: 35px;
+    height: auto;
 }
 
 .games-show{
