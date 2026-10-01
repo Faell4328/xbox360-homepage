@@ -19,7 +19,7 @@
 }
 
 .game-selected{
-    transform: scale(1.08, 1.08);
+    transform: scale(1.06, 1.06);
 }
 
 .game-container{
@@ -42,6 +42,22 @@
     object-fit: cover;
     width: 340px;
     height: 340px;
+}
+
+.game-icon-container{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    display: flex;
+    align-items: center;
+}
+
+.game-icons{
+    object-fit: scale-down;
+    margin: 0px 5px;
+    width: 35px;
+    height: auto;
 }
 
 .game-icon{

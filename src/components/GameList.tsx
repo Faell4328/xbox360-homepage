@@ -5,13 +5,58 @@ import { playSound } from './sounds';
 
 const GAMES = [
     {
-        name: 'Minecraft',
-        image: 'minecraft.jpeg',
+        name: 'Happy Wars',
+        image: 'happy-wars.jpg',
         icon: 'xbox',
     },
     {
-        name: 'Happy Wars',
-        image: 'happy-wars.jpg',
+        name: 'Supreme Commander 2',
+        image: 'supreme-commander-2.jpg',
+        icon: ['xbox', 'steam'],
+    },
+    {
+        name: 'Turing Complete',
+        image: 'turing-complete.jpg',
+        icon: 'steam',
+    },
+    {
+        name: 'Dyson Sphere Program',
+        image: 'dyson-sphere-program.jpg',
+        icon: 'steam',
+    },
+    {
+        name: 'Skyrim',
+        image: 'skyrim.jpg',
+        icon: ['xbox', 'pc'],
+    },
+    {
+        name: 'Minecraft',
+        image: 'minecraft.jpeg',
+        icon: ['xbox', 'pc'],
+    },
+    {
+        name: 'Midnight Club: Los Angeles',
+        image: 'midnight-club-lo.jpg',
+        icon: 'xbox',
+    },
+    {
+        name: 'Gears of War 2',
+        image: 'gears-of-war-2.jpg',
+        icon: 'xbox',
+    },
+    {
+        name: 'Forza Horizon',
+        image: 'forza-horizon.jpg',
+        icon: 'xbox',
+    },
+    {
+        name: 'Astroneer',
+        image: 'astroneer.jpg',
+        icon: 'steam',
+    },
+    {
+        name: 'Bordelands',
+        image: 'bordelands.jpg',
         icon: 'xbox',
     },
 ];
