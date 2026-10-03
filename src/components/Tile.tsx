@@ -4,6 +4,7 @@ export interface TileProps {
     icon?: string;
     image?: string;
     redirect?: string;
+    status?: string;
     open?: 'games';
 }
 
@@ -11,7 +12,7 @@ interface TileViewProps extends TileProps {
     selected: boolean;
 }
 
-export default function Tile({ size, text, icon, image, selected }: TileViewProps) {
+export default function Tile({ size, text, icon, image, selected, status }: TileViewProps) {
     return (
         <td rowSpan={size === 'big' ? 2 : 1} colSpan={size === 'big' ? 2 : 1}>
             <div
@@ -22,7 +23,8 @@ export default function Tile({ size, text, icon, image, selected }: TileViewProp
                 <div className="tile-content">
                     {icon ? <img className="tile-icon" src={icon} /> : null}
                 </div>
-                {text ? <p className="tile-text">{text}</p> : null}
+                {text && !status ? <p className="tile-text">{text}</p> : null}
+                {status ? <p className="tile-text">{status}</p> : null}
             </div>
         </td>
     );

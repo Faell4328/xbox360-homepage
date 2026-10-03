@@ -7,26 +7,7 @@ import { buildGrid, gridRows, move, tileAtCell, type Direction } from '../compon
 import GameList from '../components/GameList';
 import Buttons from '../components/Buttons';
 
-const TILES: TileProps[] = [
-    { size: 'small', text: 'Open Tray', icon: '/disc-tray.png' },
-    { size: 'small', image: '/works.png' },
-    {
-        size: 'small',
-        image: '/youtube.png',
-        redirect: 'https://www.youtube.com/@faell4328',
-    },
-    { size: 'big', image: '/blog.png', redirect: 'https://rhafaell.com.br' },
-    { size: 'small', text: 'Favorites Games', icon: '/mygames.png', open: 'games' },
-    { size: 'small', text: 'About me', icon: '/about.png' },
-    {
-        size: 'small',
-        image: '/github.png',
-        redirect: 'https://github.com/Faell4328',
-    },
-];
-
-const GRID = buildGrid(TILES);
-const LAYOUT = gridRows(GRID);
+type DiscStatus = 'Open Tray' | 'Closed Tray' | 'Reading';
 
 const DIRECTIONS: Record<string, Direction> = {
     ArrowUp: 'up',
@@ -40,6 +21,9 @@ function rejectMenu() {
 }
 
 export default function Dashboard() {
+    const [discStatus, setDiscStatus] = useState<DiscStatus>('Open Tray');
+    const discStatusRef = useRef<DiscStatus | null>(discStatus);
+
     const [screen, setScreen] = useState<'menu' | 'dashboard' | 'games'>('menu');
     const [closing, setClosing] = useState(false);
     const [selectedCell, setSelectedCell] = useState(0);
@@ -51,6 +35,27 @@ export default function Dashboard() {
     const bIconRef = useRef<HTMLImageElement>(null);
     const invalidKeyCount = useRef(0);
     const aPressTimeout = useRef<number | undefined>(undefined);
+
+    const TILES: TileProps[] = [
+        { size: 'small', text: 'Open Tray', icon: '/disc-tray.png', status: discStatus },
+        { size: 'small', image: '/works.png' },
+        {
+            size: 'small',
+            image: '/youtube.png',
+            redirect: 'https://www.youtube.com/@faell4328',
+        },
+        { size: 'big', image: '/blog.png', redirect: 'https://rhafaell.com.br' },
+        { size: 'small', text: 'Favorites Games', icon: '/mygames.png', open: 'games' },
+        { size: 'small', text: 'About me', icon: '/about.png' },
+        {
+            size: 'small',
+            image: '/github.png',
+            redirect: 'https://github.com/Faell4328',
+        },
+    ];
+
+    const GRID = buildGrid(TILES);
+    const LAYOUT = gridRows(GRID);
 
     const notify = useCallback((text: string) => {
         setNotification((previous) => ({ text, nonce: previous.nonce + 1 }));
@@ -105,17 +110,38 @@ export default function Dashboard() {
                 flash(aIconRef.current);
 
                 const tile = tileAtCell(GRID, selectedCell);
-                const redirect = tile !== null ? TILES[tile].redirect : undefined;
-                const open = tile !== null ? TILES[tile].open : undefined;
-                if (redirect) {
+                const element = tile !== null ? TILES[tile] : undefined;
+                if (element?.redirect) {
                     notify('Você será redirecionado em 6 segundos');
                     window.setTimeout(() => {
-                        window.location.href = redirect;
+                        window.location.href = element.redirect as string;
                     }, 6000);
-                }
-                if (open) {
+                } else if (element?.open) {
                     setScreen('games');
+                } else if (element?.text == 'Open Tray') {
+                    if (discStatusRef.current == 'Open Tray') {
+                        playSound('open-tray.mp3');
+                        discStatusRef.current = null;
+                        setTimeout(() => {
+                            discStatusRef.current = 'Closed Tray';
+                            setDiscStatus('Closed Tray');
+                        }, 1400);
+                    } else if (discStatusRef.current == 'Closed Tray') {
+                        playSound('closed-tray.mp3');
+                        discStatusRef.current = null;
+                        setTimeout(() => {
+                            discStatusRef.current = 'Reading';
+                            setDiscStatus('Reading');
+                            playSound('read-disc.mp3');
+                            setTimeout(() => {
+                                discStatusRef.current = 'Open Tray';
+                                setDiscStatus('Open Tray');
+                            }, 2800);
+                        }, 1200);
+                    }
+                    return;
                 }
+
                 playSound('hud-open.wav');
                 return;
             }

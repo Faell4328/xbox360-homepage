@@ -6,6 +6,9 @@ export const soundNames = [
     'notify-popup.wav',
     'guide-hover.wav',
     'back.mp3',
+    'open-tray.mp3',
+    'closed-tray.mp3',
+    'read-disc.mp3',
 ] as const;
 
 export type SoundName = (typeof soundNames)[number];
