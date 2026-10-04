@@ -1,0 +1,80 @@
+.dvd-page{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dvd-container{
+    opacity: 0;
+    background-color: #ddd;
+    width: 0dvw;
+    height: 0dvh;
+}
+
+.dvd-image{
+    opacity: 0;
+    width: 90px;
+
+    transform: translate(var(--x), var(--y));
+}
+
+.dvd-expand{
+    animation: dvd-expand 1s ease 0.5s forwards, dvd-show 1s ease 0s forwards;
+}
+
+.dvd-reducer{
+    animation: dvd-reducer 0.5s ease 0s forwards, dvd-hidden 0.5s ease 0s forwards;
+}
+
+.dvd-show{
+    animation: dvd-show 1s ease 2s forwards;
+}
+
+.dvd-hidden{
+    animation: dvd-hidden 0.5s ease 0s forwards;
+}
+
+@keyframes dvd-expand{
+    from{
+        width: 0px;
+        height: 0px;
+    }
+    to{
+        width: 80dvw;
+        height: 70dvh;
+    }
+}
+
+@keyframes dvd-reducer{
+    from{
+        width: 80dvw;
+        height: 70dvh;
+    }
+    to{
+        width: 0px;
+        height: 0px;
+    }
+}
+
+@keyframes dvd-show{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes dvd-hidden{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}

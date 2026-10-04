@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 
-type Screen = 'menu' | 'dashboard' | 'games';
+type Screen = 'menu' | 'dashboard' | 'games' | 'dvd-screensave';
 
 interface ButtonsProps {
     closing: boolean;
@@ -22,19 +22,25 @@ export default function Buttons({
             className={`controls-wrap ${closing == true && screen == 'menu' ? 'show-animation' : undefined}`}
         >
             <div className="controls">
-                <div className="control">
+                <div
+                    style={{ display: screen == 'dvd-screensave' ? 'none' : undefined }}
+                    className="control"
+                >
                     <img ref={arrowsIconRef} src="/xbox-arrows.png" alt="" />
                     <p>Setas</p>
                 </div>
                 <div
-                    style={{ display: screen !== 'dashboard' ? 'none' : undefined }}
+                    style={{ display: screen === 'dashboard' ? undefined : 'none' }}
                     className="control"
                 >
                     <img ref={aIconRef} src="/xbox-a.png" alt="" />
                     <p>Selecionar</p>
                 </div>
                 <div
-                    style={{ display: screen !== 'games' ? 'none' : undefined }}
+                    style={{
+                        display:
+                            screen == 'games' || screen == 'dvd-screensave' ? undefined : 'none',
+                    }}
                     className="control"
                 >
                     <img ref={bIconRef} src="/xbox-b.png" alt="" />

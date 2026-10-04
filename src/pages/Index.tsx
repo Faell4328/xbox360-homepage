@@ -6,6 +6,7 @@ import Notification from '../components/Notification';
 import { buildGrid, gridRows, move, tileAtCell, type Direction } from '../components/grid';
 import GameList from '../components/GameList';
 import Buttons from '../components/Buttons';
+import DvdScreenSave from '../components/DvdScreenSave';
 
 type DiscStatus = 'Open Tray' | 'Closed Tray' | 'Reading';
 
@@ -24,7 +25,7 @@ export default function Dashboard() {
     const [discStatus, setDiscStatus] = useState<DiscStatus>('Open Tray');
     const discStatusRef = useRef<DiscStatus | null>(discStatus);
 
-    const [screen, setScreen] = useState<'menu' | 'dashboard' | 'games'>('menu');
+    const [screen, setScreen] = useState<'menu' | 'dashboard' | 'games' | 'dvd-screensave'>('menu');
     const [closing, setClosing] = useState(false);
     const [selectedCell, setSelectedCell] = useState(0);
     const [aPressed, setAPressed] = useState(false);
@@ -38,7 +39,7 @@ export default function Dashboard() {
 
     const TILES: TileProps[] = [
         { size: 'small', text: 'Open Tray', icon: '/disc-tray.png', status: discStatus },
-        { size: 'small', image: '/works.png' },
+        { size: 'small', icon: '/question.png', open: 'dvd-screensave' },
         {
             size: 'small',
             image: '/youtube.png',
@@ -117,7 +118,7 @@ export default function Dashboard() {
                         window.location.href = element.redirect as string;
                     }, 6000);
                 } else if (element?.open) {
-                    setScreen('games');
+                    setScreen(element.open);
                 } else if (element?.text == 'Open Tray') {
                     if (discStatusRef.current == 'Open Tray') {
                         playSound('open-tray.mp3');
@@ -162,7 +163,7 @@ export default function Dashboard() {
     const containerClass =
         screen === 'menu'
             ? 'scene-hidden'
-            : screen === 'games'
+            : screen === 'games' || screen == 'dvd-screensave'
               ? closing
                   ? 'zoom-out'
                   : 'zoom-in'
@@ -183,6 +184,14 @@ export default function Dashboard() {
                     onConfirm={startClose}
                     onReject={rejectMenu}
                     onClosed={finishClose}
+                />
+            )}
+            {screen === 'dvd-screensave' && (
+                <DvdScreenSave
+                    closing={closing}
+                    onClosing={startClose}
+                    onClosed={finishClose}
+                    bIconRef={bIconRef}
                 />
             )}
             <div>
