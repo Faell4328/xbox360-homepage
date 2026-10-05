@@ -69,6 +69,11 @@
     height: auto;
 }
 
+.game-rating{
+    width: 15px;
+    height: 15px;
+}
+
 .games-show{
     animation: games-show 1.4s ease 0s forwards;
 }
