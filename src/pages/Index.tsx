@@ -113,10 +113,10 @@ export default function Dashboard() {
                 const tile = tileAtCell(GRID, selectedCell);
                 const element = tile !== null ? TILES[tile] : undefined;
                 if (element?.redirect) {
-                    notify('Você será redirecionado em 6 segundos');
+                    notify('Você será redirecionado em 3 segundos');
                     window.setTimeout(() => {
                         window.location.href = element.redirect as string;
-                    }, 6000);
+                    }, 3000);
                 } else if (element?.open) {
                     setScreen(element.open);
                 } else if (element?.text == 'Open Tray') {
