@@ -47,7 +47,7 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
             >
                 <div id="container-menu-elements" className={closing ? 'closing' : ''}>
                     <header>
-                        <h1>Site exclusivo para computadores</h1>
+                        <h3>Site exclusivo para computadores</h3>
                     </header>
                     <p>
                         O site foi desenvolvido apenas para computadores, não funciona para

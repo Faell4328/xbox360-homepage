@@ -7,6 +7,7 @@ import { buildGrid, gridRows, move, tileAtCell, type Direction } from '../compon
 import GameList from '../components/GameList';
 import Buttons from '../components/Buttons';
 import DvdScreenSave from '../components/DvdScreenSave';
+import AboutMe from '../components/AboutMe';
 
 type DiscStatus = 'Open Tray' | 'Closed Tray' | 'Reading';
 
@@ -25,7 +26,9 @@ export default function Dashboard() {
     const [discStatus, setDiscStatus] = useState<DiscStatus>('Open Tray');
     const discStatusRef = useRef<DiscStatus | null>(discStatus);
 
-    const [screen, setScreen] = useState<'menu' | 'dashboard' | 'games' | 'dvd-screensave'>('menu');
+    const [screen, setScreen] = useState<
+        'menu' | 'dashboard' | 'games' | 'dvd-screensave' | 'about-me'
+    >('menu');
     const [closing, setClosing] = useState(false);
     const [selectedCell, setSelectedCell] = useState(0);
     const [aPressed, setAPressed] = useState(false);
@@ -47,7 +50,7 @@ export default function Dashboard() {
         },
         { size: 'big', image: '/blog.png', redirect: 'https://rhafaell.com.br' },
         { size: 'small', text: 'Favorites Games', icon: '/mygames.png', open: 'games' },
-        { size: 'small', text: 'About me', icon: '/about.png' },
+        { size: 'small', text: 'About me', icon: '/about.png', open: 'about-me' },
         {
             size: 'small',
             image: '/github.png',
@@ -163,7 +166,7 @@ export default function Dashboard() {
     const containerClass =
         screen === 'menu'
             ? 'scene-hidden'
-            : screen === 'games' || screen == 'dvd-screensave'
+            : screen === 'games' || screen == 'dvd-screensave' || screen == 'about-me'
               ? closing
                   ? 'zoom-out'
                   : 'zoom-in'
@@ -188,6 +191,14 @@ export default function Dashboard() {
             )}
             {screen === 'dvd-screensave' && (
                 <DvdScreenSave
+                    closing={closing}
+                    onClosing={startClose}
+                    onClosed={finishClose}
+                    bIconRef={bIconRef}
+                />
+            )}
+            {screen === 'about-me' && (
+                <AboutMe
                     closing={closing}
                     onClosing={startClose}
                     onClosed={finishClose}
