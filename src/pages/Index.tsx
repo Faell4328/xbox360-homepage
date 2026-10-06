@@ -9,7 +9,7 @@ import Buttons from '../components/Buttons';
 import DvdScreenSave from '../components/DvdScreenSave';
 import AboutMe from '../components/AboutMe';
 
-type DiscStatus = 'Open Tray' | 'Closed Tray' | 'Reading';
+type DiscStatus = 'Open Tray' | 'Closed Tray' | 'Reading' | 'Play';
 
 const DIRECTIONS: Record<string, Direction> = {
     ArrowUp: 'up',
@@ -41,8 +41,14 @@ export default function Dashboard() {
     const aPressTimeout = useRef<number | undefined>(undefined);
 
     const TILES: TileProps[] = [
-        { size: 'small', text: 'Open Tray', icon: '/disc-tray.png', status: discStatus },
-        { size: 'small', icon: '/question.png', open: 'dvd-screensave' },
+        {
+            size: 'small',
+            text: 'Open Tray',
+            icon: '/disc-tray.png',
+            status: discStatus,
+            open: 'dvd-screensave',
+        },
+        { size: 'small', text: 'Undefined' },
         {
             size: 'small',
             image: '/youtube.png',
@@ -120,7 +126,10 @@ export default function Dashboard() {
                     window.setTimeout(() => {
                         window.location.href = element.redirect as string;
                     }, 3000);
-                } else if (element?.open) {
+                } else if (
+                    element?.open &&
+                    (discStatusRef.current == 'Play' || element.status == undefined)
+                ) {
                     setScreen(element.open);
                 } else if (element?.text == 'Open Tray') {
                     if (discStatusRef.current == 'Open Tray') {
@@ -138,8 +147,8 @@ export default function Dashboard() {
                             setDiscStatus('Reading');
                             playSound('read-disc.mp3');
                             setTimeout(() => {
-                                discStatusRef.current = 'Open Tray';
-                                setDiscStatus('Open Tray');
+                                discStatusRef.current = 'Play';
+                                setDiscStatus('Play');
                             }, 2800);
                         }, 1200);
                     }

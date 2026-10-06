@@ -104,11 +104,11 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
 
             if ((x >= maxX - 3 || x <= 3) && (y >= maxY - 3 || y <= 3)) {
                 epic();
-            } else if (cont.current >= 20) {
+            } else if (cont.current >= 30) {
                 image.src = '/dvd-screensave/head4.png';
-            } else if (cont.current < 19) {
-                nope1.volume = Math.min((20 - cont.current) / 10, 1);
-                nope2.volume = Math.min((20 - cont.current) / 10, 1);
+            } else if (cont.current < 29) {
+                nope1.volume = Math.min((30 - cont.current) / 10, 1);
+                nope2.volume = Math.min((30 - cont.current) / 10, 1);
             }
 
             if (x >= maxX) {
