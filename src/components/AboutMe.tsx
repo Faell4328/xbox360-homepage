@@ -17,7 +17,7 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
                     void bIconRef.current.offsetWidth;
                     bIconRef.current.classList.add('btn-flash');
                 }
-                onClosing('dvd-screensave');
+                onClosing('about-me');
             }
         };
 
