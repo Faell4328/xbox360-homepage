@@ -27,7 +27,7 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
                 }
             } else if (event.key === 'a') {
                 playSound('select-a.mp3');
-                if (selectedIndex === 0) onConfirm('teste');
+                if (selectedIndex === 0) onConfirm('menu');
                 else onReject();
             }
         };

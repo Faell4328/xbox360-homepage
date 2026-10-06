@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 
-type Screen = 'menu' | 'dashboard' | 'games' | 'dvd-screensave' | 'about-me';
+type Screen = 'menu' | 'dashboard' | 'games' | 'dvd-screensave' | 'about-me' | 'change-theme';
 
 interface ButtonsProps {
     closing: boolean;
@@ -40,10 +40,7 @@ export default function Buttons({
                 </div>
                 <div
                     style={{
-                        display:
-                            screen == 'games' || screen == 'dvd-screensave' || screen == 'about-me'
-                                ? undefined
-                                : 'none',
+                        display: screen != 'menu' && screen != 'dashboard' ? undefined : 'none',
                     }}
                     className="control"
                 >

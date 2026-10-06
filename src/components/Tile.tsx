@@ -5,7 +5,7 @@ export interface TileProps {
     image?: string;
     redirect?: string;
     status?: string;
-    open?: 'games' | 'dvd-screensave' | 'about-me';
+    open?: 'games' | 'dvd-screensave' | 'about-me' | 'change-theme';
 }
 
 interface TileViewProps extends TileProps {

@@ -8,6 +8,7 @@ import GameList from '../components/GameList';
 import Buttons from '../components/Buttons';
 import DvdScreenSave from '../components/DvdScreenSave';
 import AboutMe from '../components/AboutMe';
+import ChangeTheme from '../components/ChangeTheme';
 
 type DiscStatus = 'Open Tray' | 'Closed Tray' | 'Reading' | 'Play';
 
@@ -23,11 +24,12 @@ function rejectMenu() {
 }
 
 export default function Dashboard() {
+    const [theme, setTheme] = useState('xbox');
     const [discStatus, setDiscStatus] = useState<DiscStatus>('Open Tray');
     const discStatusRef = useRef<DiscStatus | null>(discStatus);
 
     const [screen, setScreen] = useState<
-        'menu' | 'dashboard' | 'games' | 'dvd-screensave' | 'about-me'
+        'menu' | 'dashboard' | 'games' | 'dvd-screensave' | 'about-me' | 'change-theme'
     >('menu');
     const [closing, setClosing] = useState(false);
     const [selectedCell, setSelectedCell] = useState(0);
@@ -48,7 +50,7 @@ export default function Dashboard() {
             status: discStatus,
             open: 'dvd-screensave',
         },
-        { size: 'small', text: 'Undefined' },
+        { size: 'small', text: 'Change Theme', icon: '/change-theme.png', open: 'change-theme' },
         {
             size: 'small',
             image: '/youtube.png',
@@ -56,7 +58,7 @@ export default function Dashboard() {
         },
         { size: 'big', image: '/blog.png', redirect: 'https://rhafaell.com.br' },
         { size: 'small', text: 'Favorites Games', icon: '/mygames.png', open: 'games' },
-        { size: 'small', text: 'About me', icon: '/about.png', open: 'about-me' },
+        { size: 'small', text: 'About Me', icon: '/about.png', open: 'about-me' },
         {
             size: 'small',
             image: '/github.png',
@@ -79,7 +81,7 @@ export default function Dashboard() {
     }, []);
 
     const startClose = useCallback((component: string) => {
-        if (component != 'games') {
+        if (component == 'menu') {
             playSound('hud-open.wav');
         } else {
             playSound('back.mp3');
@@ -175,7 +177,7 @@ export default function Dashboard() {
     const containerClass =
         screen === 'menu'
             ? 'scene-hidden'
-            : screen === 'games' || screen == 'dvd-screensave' || screen == 'about-me'
+            : screen != 'dashboard'
               ? closing
                   ? 'zoom-out'
                   : 'zoom-in'
@@ -188,7 +190,12 @@ export default function Dashboard() {
         screen === 'dashboard' && !closing && !aPressed && selectedTile === tile;
 
     return (
-        <main className="dashboard has-wallpaper">
+        <main
+            style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 50%, rgba(0, 0, 0, 0.5)),url('bg-${theme}.jpg')`,
+            }}
+            className="dashboard has-wallpaper"
+        >
             <Notification message={notification.text} nonce={notification.nonce} />
             {screen === 'menu' && (
                 <Menu
@@ -196,6 +203,16 @@ export default function Dashboard() {
                     onConfirm={startClose}
                     onReject={rejectMenu}
                     onClosed={finishClose}
+                />
+            )}
+            {screen === 'change-theme' && (
+                <ChangeTheme
+                    closing={closing}
+                    onClosing={startClose}
+                    onClosed={finishClose}
+                    bIconRef={bIconRef}
+                    theme={theme}
+                    setTheme={setTheme}
                 />
             )}
             {screen === 'dvd-screensave' && (
