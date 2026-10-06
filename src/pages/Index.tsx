@@ -19,7 +19,7 @@ const DIRECTIONS: Record<string, Direction> = {
 };
 
 function rejectMenu() {
-    window.location.href = 'https://www.google.com/search?q=gatinhos';
+    window.location.href = 'https://www.google.com/search?q=cat';
 }
 
 export default function Dashboard() {
@@ -116,7 +116,7 @@ export default function Dashboard() {
                 const tile = tileAtCell(GRID, selectedCell);
                 const element = tile !== null ? TILES[tile] : undefined;
                 if (element?.redirect) {
-                    notify('Você será redirecionado em 3 segundos');
+                    notify('You will be redirected in 3 seconds');
                     window.setTimeout(() => {
                         window.location.href = element.redirect as string;
                     }, 3000);
@@ -153,7 +153,7 @@ export default function Dashboard() {
             invalidKeyCount.current += 1;
             if (invalidKeyCount.current > 5) {
                 notify(
-                    "Você está presionando teclas inválidas, só é permitido as setas e teclas: 'a', 'b', 'x' e 'y'"
+                    "You are pressing invalid keys, only the arrow keys and the keys 'a', 'b', 'x' and 'y' are allowed"
                 );
                 invalidKeyCount.current = 0;
             }

@@ -47,14 +47,14 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
             >
                 <div id="container-menu-elements" className={closing ? 'closing' : ''}>
                     <header>
-                        <h3>Site exclusivo para computadores</h3>
+                        <h3>Website exclusively for computers</h3>
                     </header>
                     <p>
-                        O site foi desenvolvido apenas para computadores, não funciona para
-                        dispositivos moveis (celulares e tablets). O layout irá ficar quebrado e a
-                        navegação é feita usando o teclado.
+                        The website was developed only for computers; it does not work on mobile
+                        devices (phones and tablets). The layout will be broken and navigation is
+                        done using the keyboard.
                     </p>
-                    <p>Você está em um computador?</p>
+                    <p>Are you on a computer?</p>
                     <div id="container-menu-button">
                         <button
                             className={
@@ -62,7 +62,7 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
                             }
                             onClick={() => onConfirm('menu')}
                         >
-                            Estou em um computador
+                            I am on a computer
                         </button>
                         <button
                             className={
@@ -70,7 +70,7 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
                             }
                             onClick={onReject}
                         >
-                            Estou em um dispositivo móvel
+                            I am on a mobile device
                         </button>
                     </div>
                 </div>

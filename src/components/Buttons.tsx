@@ -27,7 +27,7 @@ export default function Buttons({
                     className="control"
                 >
                     <img ref={arrowsIconRef} src="/xbox-arrows.png" alt="" />
-                    <p>Setas</p>
+                    <p>Arrows</p>
                 </div>
                 <div
                     style={{
@@ -36,7 +36,7 @@ export default function Buttons({
                     className="control"
                 >
                     <img ref={aIconRef} src="/xbox-a.png" alt="" />
-                    <p>Selecionar</p>
+                    <p>Select</p>
                 </div>
                 <div
                     style={{
@@ -48,7 +48,7 @@ export default function Buttons({
                     className="control"
                 >
                     <img ref={bIconRef} src="/xbox-b.png" alt="" />
-                    <p>Voltar</p>
+                    <p>Back</p>
                 </div>
             </div>
         </footer>
