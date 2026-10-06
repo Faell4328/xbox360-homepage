@@ -30,7 +30,9 @@ export default function Buttons({
                     <p>Setas</p>
                 </div>
                 <div
-                    style={{ display: screen === 'dashboard' ? undefined : 'none' }}
+                    style={{
+                        display: screen === 'dashboard' ? undefined : 'none',
+                    }}
                     className="control"
                 >
                     <img ref={aIconRef} src="/xbox-a.png" alt="" />

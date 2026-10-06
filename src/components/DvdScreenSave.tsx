@@ -12,8 +12,8 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
     const [initDvd, setInitDvd] = useState<boolean>(false);
     const cont = useRef<number>(0);
     const controlTimeout = useRef<number | null>(null);
-    const containerRef = useRef<HTMLDivElement | null>(null);
-    const imageRef = useRef<HTMLImageElement | null>(null);
+    const backgroundRef = useRef<HTMLDivElement | null>(null);
+    const headerRef = useRef<HTMLImageElement | null>(null);
     const nopeAudio1Ref = useRef<HTMLAudioElement | null>(null);
     const nopeAudio2Ref = useRef<HTMLAudioElement | null>(null);
     const wowAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -22,15 +22,15 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
         if (
             nopeAudio1Ref.current == null ||
             nopeAudio2Ref.current == null ||
-            imageRef.current == null ||
+            headerRef.current == null ||
             cont.current == null ||
             initDvd == false
         )
             return;
 
         if (
-            imageRef.current.src.endsWith('head3.png') ||
-            imageRef.current.src.endsWith('head4.png')
+            headerRef.current.src.endsWith('head3.png') ||
+            headerRef.current.src.endsWith('head4.png')
         ) {
             return;
         }
@@ -39,7 +39,7 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
             clearTimeout(controlTimeout.current);
         }
 
-        imageRef.current.src = '/dvd-screensave/head2.png';
+        headerRef.current.src = '/dvd-screensave/head2.png';
         cont.current++;
 
         if (cont.current % 2 == 0) {
@@ -49,44 +49,45 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
         }
 
         controlTimeout.current = setTimeout(() => {
-            if (imageRef.current == null) return;
-            imageRef.current.src = '/dvd-screensave/head1.png';
+            if (headerRef.current == null) return;
+            headerRef.current.src = '/dvd-screensave/head1.png';
             controlTimeout.current = null;
         }, 300);
     }
 
     function epic() {
-        if (wowAudioRef.current == null || imageRef.current == null || cont.current == null) return;
+        if (wowAudioRef.current == null || headerRef.current == null || cont.current == null)
+            return;
 
         cont.current = 0;
-        imageRef.current.src = '/dvd-screensave/head3.png';
+        headerRef.current.src = '/dvd-screensave/head3.png';
         wowAudioRef?.current.play();
 
         setTimeout(() => {
-            if (imageRef.current == null) return;
+            if (headerRef.current == null) return;
 
-            imageRef.current.src = '/dvd-screensave/head1.png';
+            headerRef.current.src = '/dvd-screensave/head1.png';
         }, 4000);
     }
 
     useEffect(() => {
         if (
             !wowAudioRef.current ||
-            !imageRef.current ||
+            !headerRef.current ||
             !nopeAudio1Ref.current ||
             !nopeAudio2Ref.current ||
             !initDvd
         )
             return;
 
-        const image = imageRef.current;
+        const image = headerRef.current;
         const nope1 = nopeAudio1Ref.current;
         const nope2 = nopeAudio2Ref.current;
 
         const VELOCIDADE = 350;
 
-        let maxX = (containerRef.current?.clientWidth || 0) - image.clientWidth;
-        let maxY = (containerRef.current?.clientHeight || 0) - image.clientHeight;
+        let maxX = (backgroundRef.current?.clientWidth || 0) - image.clientWidth;
+        let maxY = (backgroundRef.current?.clientHeight || 0) - image.clientHeight;
 
         let x = Math.random() * maxX;
         let y = Math.random() * maxY;
@@ -98,18 +99,16 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
             let dt = (now - last) / 1000;
             last = now;
 
-            console.log(cont.current);
-
             x += vX * dt;
             y += vY * dt;
 
             if ((x >= maxX - 3 || x <= 3) && (y >= maxY - 3 || y <= 3)) {
                 epic();
-            } else if (cont.current >= 30) {
+            } else if (cont.current >= 20) {
                 image.src = '/dvd-screensave/head4.png';
-            } else if (cont.current < 29) {
-                nope1.volume = Math.min((30 - cont.current) / 10, 1);
-                nope2.volume = Math.min((30 - cont.current) / 10, 1);
+            } else if (cont.current < 19) {
+                nope1.volume = Math.min((20 - cont.current) / 10, 1);
+                nope2.volume = Math.min((20 - cont.current) / 10, 1);
             }
 
             if (x >= maxX) {
@@ -162,25 +161,30 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
     return (
         <div className="dvd-page">
             <div
-                ref={containerRef}
                 onAnimationEnd={(event) => {
-                    console.log(event);
                     if (event.animationName == 'dvd-expand') {
                         setInitDvd(true);
                     }
                     if (closing && event.target === event.currentTarget) onClosed(false);
                 }}
-                className={'dvd-container' + (closing ? ' dvd-reducer' : ' dvd-expand')}
+                className={'dvd-container' + (closing ? ' dvd-hidden' : ' dvd-show')}
             >
-                <img
-                    className={'dvd-image' + (closing ? ' dvd-hidden' : ' dvd-show')}
-                    ref={imageRef}
-                    src="/dvd-screensave/head1.png"
-                />
-                <audio ref={nopeAudio1Ref} src="/dvd-screensave/nope.mp3" />
-                <audio ref={nopeAudio2Ref} src="/dvd-screensave/nope.mp3" />
-                <audio ref={wowAudioRef} src="/dvd-screensave/wow.mp3" />
+                <div className="dvd-background-screen"></div>
+                <div
+                    ref={backgroundRef}
+                    className={'dvd-screen' + (closing ? ' dvd-reducer' : ' dvd-expand')}
+                >
+                    <img
+                        className={'dvd-header' + (closing ? ' dvd-hidden' : ' dvd-show-header')}
+                        ref={headerRef}
+                        src="/dvd-screensave/head1.png"
+                    />
+                </div>
+                <img className="dvd-crt" src="/dvd-screensave/crt.png" />
             </div>
+            <audio ref={nopeAudio1Ref} src="/dvd-screensave/nope.mp3" />
+            <audio ref={nopeAudio2Ref} src="/dvd-screensave/nope.mp3" />
+            <audio ref={wowAudioRef} src="/dvd-screensave/wow.mp3" />
         </div>
     );
 }

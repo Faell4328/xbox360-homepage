@@ -1,7 +1,6 @@
 .dvd-page{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    inset: 0;
     width: 100dvw;
     height: 100dvh;
     display: flex;
@@ -10,29 +9,83 @@
 }
 
 .dvd-container{
-    opacity: 0;
-    background-color: #ddd;
-    width: 0dvw;
-    height: 0dvh;
+    position: relative;
+    height: 85dvh;
+    aspect-ratio: 800 / 520;
 }
 
-.dvd-image{
+.dvd-crt{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.dvd-background-screen{
+    position: absolute;
+    background-color: #000;
+    top: 7.5%;
+    left: 6%;
+    height: 80%;
+    width: 71%;
+}
+
+.dvd-screen{
+    position: absolute;
+    top: 7.5%;
+    left: 6%;
+    height: 80%;
+    width: 71%;
+}
+
+.dvd-screen::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.3) 0px,
+            rgba(0, 0, 0, 0.3) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        repeating-linear-gradient(
+            to right,
+            rgba(255, 0, 0, 0.06) 0px,
+            rgba(255, 0, 0, 0.06) 1px,
+            rgba(0, 255, 0, 0.06) 1px,
+            rgba(0, 255, 0, 0.06) 2px,
+            rgba(0, 0, 255, 0.06) 2px,
+            rgba(0, 0, 255, 0.06) 3px
+        );
+}
+
+.dvd-header{
     opacity: 0;
     width: 90px;
 
     transform: translate(var(--x), var(--y));
+    filter: drop-shadow(2px 0 rgba(255, 0, 0, 0.55))
+        drop-shadow(-2px 0 rgba(0, 255, 255, 0.55));
 }
 
 .dvd-expand{
-    animation: dvd-expand 1s ease 0.5s forwards, dvd-show 1s ease 0s forwards;
+    animation: dvd-expand 2s ease 1s forwards, dvd-show 2s ease 0s forwards;
 }
 
 .dvd-reducer{
-    animation: dvd-reducer 0.5s ease 0s forwards, dvd-hidden 0.5s ease 0s forwards;
+    animation: dvd-hidden 0.4s ease 0s forwards;
+}
+
+.dvd-show-header{
+    animation: dvd-show 1s ease 3s forwards;
 }
 
 .dvd-show{
-    animation: dvd-show 1s ease 2s forwards;
+    animation: dvd-show 0.5s ease 0s forwards;
 }
 
 .dvd-hidden{
@@ -40,24 +93,60 @@
 }
 
 @keyframes dvd-expand{
-    from{
-        width: 0px;
-        height: 0px;
+    0%{
+        background-color: transparent;
     }
-    to{
-        width: 80dvw;
-        height: 70dvh;
+    2%{
+        background-color: #dff5ff;
+    }
+    5%{
+        background-color: transparent;
+        transform: scale(1, 1);
+    }
+    30%{
+        background-color: transparent;
+        transform: scale(0.008, 0.008);
+    }
+    50%{
+        background-color: #dff5ff;
+        transform: scale(0.008, 0.008);
+    }
+    80%{
+        background-color: #dff5ff;
+        transform: scale(1, 0.008);
+    }
+    100%{
+        background-color: #dff5ff;
+        transform: scale(1, 1);
     }
 }
 
 @keyframes dvd-reducer{
-    from{
-        width: 80dvw;
-        height: 70dvh;
+    0%{
+        background-color: #dff5ff;
+        transform: scale(1, 1);
     }
-    to{
-        width: 0px;
-        height: 0px;
+    20%{
+        background-color: #dff5ff;
+        transform: scale(1, 0.008);
+    }
+    50%{
+        background-color: #dff5ff;
+        transform: scale(0.008, 0.008);
+    }
+    80%{
+        background-color: transparent;
+        transform: scale(0.008, 0.008);
+    }
+    92%{
+        background-color: #dff5ff;
+    }
+    95%{
+        background-color: transparent;
+        transform: scale(1, 1);
+    }
+    100%{
+        background-color: transparent;
     }
 }
 
