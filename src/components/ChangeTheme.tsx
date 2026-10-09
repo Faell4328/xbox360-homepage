@@ -22,7 +22,7 @@ export default function ChangeTheme({
     const optionSelectRef = useRef(0);
     const [optionSelect, setOptionSelect] = useState(0);
 
-    const themes = ['xbox', 'spectrum', 'day', 'night'];
+    const themes = ['xbox', 'spectrum', 'day', 'night', 'hajime'];
 
     useEffect(() => {
         let key = 0;
@@ -33,6 +33,8 @@ export default function ChangeTheme({
             key = 2;
         } else if (theme == 'night') {
             key = 3;
+        } else if (theme == 'hajime') {
+            key = 4;
         }
 
         setOptionSelect(key);
@@ -51,7 +53,7 @@ export default function ChangeTheme({
                     playSound('guide-hover.wav');
                 }
             } else if (event.key === 'ArrowDown') {
-                if (optionSelectRef.current < 3) {
+                if (optionSelectRef.current < 4) {
                     optionSelectRef.current++;
                     setOptionSelect(optionSelectRef.current);
                     setTheme(themes[optionSelectRef.current]);
@@ -93,6 +95,9 @@ export default function ChangeTheme({
                 </div>
                 <div className={`theme-options ${optionSelect == 3 && 'theme-option-selected'}`}>
                     Night
+                </div>
+                <div className={`theme-options ${optionSelect == 4 && 'theme-option-selected'}`}>
+                    Hajime no Ippo
                 </div>
             </div>
         </div>
