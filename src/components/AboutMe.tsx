@@ -38,35 +38,45 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
                     <h1>Faell4328</h1>
                     <hr />
                     <h2>Programmer</h2>
-                    <p>
-                        <b>Favorite anime and manga: </b>
-                        Hajime no Ippo, without a doubt.
-                    </p>
-                    <p>
-                        <b>Text Editor: </b>
-                        Zed with vim mode enabled, before used VSCode and NeoVim.
-                    </p>
-                    <p>
-                        <b>Operating System: </b>
-                        Cachy OS with Niri (my main) and Windows 11
-                    </p>
-                    <div className="about-content">
-                        <h2>Projects (minimally relevant)</h2>
-                        <div className="about-projects">
+                    <section>
+                        <p>
+                            <b>Text Editor: </b>
+                            Zed with vim mode enabled, before used VSCode and NeoVim.
+                        </p>
+                        <p>
+                            <b>Operating System: </b>
+                            Cachy OS with Niri (my main) and Windows 11
+                        </p>
+                    </section>
+                    <section>
+                        <h3>Projects (minimally relevant)</h3>
+                        <div>
                             <div className="about-project">
-                                <b>Ottavada</b>
-                                <p>
-                                    Application for organizing musical repertoire (built entirely
-                                    with AI)
-                                </p>
+                                <div className="about-icon-project">
+                                    <img src="about-me/ottavada.png" />
+                                </div>
+                                <div className="about-description-project">
+                                    <b>Ottavada</b>
+                                    <p>
+                                        App to organize and conduct musical repertoire: finds,
+                                        filters and syncs sheet music across computers without
+                                        touching your files (built entirely with AI)
+                                    </p>
+                                </div>
                             </div>
                             <div className="about-project">
-                                <b>Chess Engine</b>
-                                <p>A chess engine made 100% by hand, using bitboards</p>
+                                <div className="about-icon-project">
+                                    <img src="about-me/chess.png" />
+                                </div>
+                                <div className="about-description-project">
+                                    <b>Chess Engine</b>
+                                    <p>A chess engine made 100% by hand, using bitboards</p>
+                                </div>
                             </div>
+                            <p>! I have other projects, but they're mostly studies/drafts.</p>
                         </div>
-                        <p>! I have other projects, but they're mostly studies/drafts.</p>
-                    </div>
+                    </section>
+                    <p></p>
                 </div>
             </div>
             <audio loop autoPlay src="/about-me/background-sound.mp3" />
