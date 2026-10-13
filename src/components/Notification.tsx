@@ -12,11 +12,11 @@ export default function Notification({ message, nonce }: NotificationProps) {
     useEffect(() => {
         if (nonce === 0) return;
 
-        const show = window.setTimeout(() => {
+        const show = setTimeout(() => {
             setVisible(true);
             playSound('notify-popup.wav');
         }, 600);
-        const hide = window.setTimeout(() => setVisible(false), 5000);
+        const hide = setTimeout(() => setVisible(false), 5000);
 
         return () => {
             clearTimeout(show);
@@ -25,14 +25,15 @@ export default function Notification({ message, nonce }: NotificationProps) {
     }, [nonce]);
 
     return (
-        <div id="notification-container" className={visible ? 'is-visible' : undefined}>
+        <div id="notification" className={visible ? 'notification-visible' : undefined}>
             <img
-                key={`image-${nonce}`}
-                id="notification-image"
+                key={`orb-${nonce}`}
+                id="notification-orb"
                 src="/xbox-orb.png"
+                alt=""
                 loading="eager"
             />
-            <div key={`text-${nonce}`} id="notification-container-text">
+            <div key={`body-${nonce}`} id="notification-body">
                 <p id="notification-text">{message}</p>
             </div>
         </div>

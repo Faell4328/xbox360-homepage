@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { playSound } from './sounds';
+import { verticalStep } from '../keys';
+
+const OPTIONS = ['I am on a computer', 'I am on a mobile device'] as const;
 
 interface MenuProps {
     closing: boolean;
-    onConfirm: (component: string) => void;
+    onConfirm: (source: string) => void;
     onReject: () => void;
-    onClosed: (sound: boolean) => void;
+    onClosed: (withSound: boolean) => void;
 }
 
 export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuProps) {
@@ -15,17 +18,17 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
         const onKeyDown = (event: KeyboardEvent) => {
             if (closing) return;
 
-            if (event.key === 'ArrowUp') {
-                if (selectedIndex !== 0) {
-                    setSelectedIndex(0);
+            const step = verticalStep(event.key);
+            if (step !== 0) {
+                const next = selectedIndex + step;
+                if (next >= 0 && next < OPTIONS.length) {
+                    setSelectedIndex(next);
                     playSound('guide-hover.wav');
                 }
-            } else if (event.key === 'ArrowDown') {
-                if (selectedIndex !== 1) {
-                    setSelectedIndex(1);
-                    playSound('guide-hover.wav');
-                }
-            } else if (event.key === 'a') {
+                return;
+            }
+
+            if (event.key === 'a') {
                 playSound('select-a.mp3');
                 if (selectedIndex === 0) onConfirm('menu');
                 else onReject();
@@ -37,19 +40,20 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
     }, [closing, selectedIndex, onConfirm, onReject]);
 
     return (
-        <div id="menu" className={`${!closing ? 'menu-open' : ''}`}>
+        <div id="menu" className={closing ? '' : 'menu-open'}>
             <div
-                id="container-menu"
+                id="menu-container"
                 onTransitionEnd={(event) => {
                     if (
                         closing &&
                         event.target === event.currentTarget &&
                         event.propertyName === 'width'
-                    )
+                    ) {
                         onClosed(true);
+                    }
                 }}
             >
-                <div id="container-menu-elements">
+                <div id="menu-content">
                     <header>
                         <h3>Website exclusively for computers</h3>
                     </header>
@@ -59,23 +63,16 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
                         done using the keyboard.
                     </p>
                     <p>Are you on a computer?</p>
-                    <div id="container-menu-button">
-                        <button
-                            className={
-                                'menu-button' + (selectedIndex === 0 ? ' select-menu-button' : '')
-                            }
-                            onClick={() => onConfirm('menu')}
-                        >
-                            I am on a computer
-                        </button>
-                        <button
-                            className={
-                                'menu-button' + (selectedIndex === 1 ? ' select-menu-button' : '')
-                            }
-                            onClick={onReject}
-                        >
-                            I am on a mobile device
-                        </button>
+                    <div id="menu-buttons">
+                        {OPTIONS.map((label, index) => (
+                            <button
+                                key={label}
+                                className={`menu-button${selectedIndex === index ? ' menu-button-selected' : ''}`}
+                                onClick={() => (index === 0 ? onConfirm('menu') : onReject())}
+                            >
+                                {label}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </div>

@@ -41,11 +41,7 @@
     height: 100%;
 }
 
-p{
-    padding: 2px 0px;
-}
-
-hr{
+.about-page hr{
     position: relative;
     height: 5px;
     width: 100%;
@@ -55,7 +51,7 @@ hr{
     animation: knight-rider 3s linear 0s infinite;
 }
 
-section{
+.about-page section{
     margin: 20px 0px;
 }
 
@@ -63,17 +59,16 @@ section{
     display: flex;
     align-items: center;
     border: 1px solid #000;
-    border-radius: 10px;
     margin: 10px 0;
     padding: 10px;
     border-radius: 20px;
 }
 
-.about-description-project{
+.about-project-description{
     width: 500px;
 }
 
-.about-icon-project{
+.about-project-icon{
     padding: 5px;
     margin: 0px 5px;
     width: 80px;

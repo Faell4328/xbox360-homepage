@@ -15,7 +15,7 @@ export type SoundName = (typeof soundNames)[number];
 
 let cache: Record<SoundName, HTMLAudioElement> | null = null;
 
-function allSound(): Record<SoundName, HTMLAudioElement> {
+function getSounds(): Record<SoundName, HTMLAudioElement> {
     if (!cache) {
         cache = Object.fromEntries(
             soundNames.map((name) => {
@@ -28,8 +28,12 @@ function allSound(): Record<SoundName, HTMLAudioElement> {
     return cache;
 }
 
+export function playAudio(audio: HTMLAudioElement | null): void {
+    void audio?.play().catch(() => {});
+}
+
 export function playSound(name: SoundName): void {
-    const audio = allSound()[name];
+    const audio = getSounds()[name];
     audio.currentTime = 0;
-    audio.play();
+    playAudio(audio);
 }

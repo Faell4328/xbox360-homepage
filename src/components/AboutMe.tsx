@@ -1,29 +1,9 @@
 import '../style/components/about-me.css';
-import { useEffect, type RefObject } from 'react';
+import { useBackButton } from './useBackButton';
+import type { ScreenProps } from '../interfaces';
 
-interface AboutMeProps {
-    closing: boolean;
-    onClosing: (component: string) => void;
-    onClosed: (sound: boolean) => void;
-    bIconRef: RefObject<HTMLImageElement | null>;
-}
-
-export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: AboutMeProps) {
-    useEffect(() => {
-        const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'b') {
-                if (bIconRef.current) {
-                    bIconRef.current.classList.remove('btn-flash');
-                    void bIconRef.current.offsetWidth;
-                    bIconRef.current.classList.add('btn-flash');
-                }
-                onClosing('about-me');
-            }
-        };
-
-        document.addEventListener('keydown', onKeyDown);
-        return () => document.removeEventListener('keydown', onKeyDown);
-    }, [closing, onClosing, onClosed, bIconRef]);
+export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: ScreenProps) {
+    useBackButton('about-me', { closing, onClosing, bIconRef });
 
     return (
         <div
@@ -33,8 +13,8 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
             }}
         >
             <div className="about-container">
-                <img src="/about-me/avatar.png" />
-                <div className="about-container-content">
+                <img src="/about-me/avatar.png" alt="Faell4328 avatar" />
+                <div className="about-content">
                     <h1>Faell4328</h1>
                     <hr />
                     <h2>Programmer</h2>
@@ -52,10 +32,10 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
                         <h3>Projects (minimally relevant)</h3>
                         <div>
                             <div className="about-project">
-                                <div className="about-icon-project">
-                                    <img src="about-me/ottavada.png" />
+                                <div className="about-project-icon">
+                                    <img src="/about-me/ottavada.png" alt="Ottavada" />
                                 </div>
-                                <div className="about-description-project">
+                                <div className="about-project-description">
                                     <b>Ottavada</b>
                                     <p>
                                         App to organize and conduct musical repertoire: finds,
@@ -65,10 +45,10 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
                                 </div>
                             </div>
                             <div className="about-project">
-                                <div className="about-icon-project">
-                                    <img src="about-me/chess.png" />
+                                <div className="about-project-icon">
+                                    <img src="/about-me/chess.png" alt="Chess Engine" />
                                 </div>
-                                <div className="about-description-project">
+                                <div className="about-project-description">
                                     <b>Chess Engine</b>
                                     <p>A chess engine made 100% by hand, using bitboards</p>
                                 </div>
@@ -76,7 +56,6 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
                             <p>! I have other projects, but they're mostly studies/drafts.</p>
                         </div>
                     </section>
-                    <p></p>
                 </div>
             </div>
             <audio loop autoPlay src="/about-me/background-sound.mp3" />

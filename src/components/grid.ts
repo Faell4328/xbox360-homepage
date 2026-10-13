@@ -1,9 +1,8 @@
-import type { TileProps } from './Tile';
+import type { TileProps } from '../interfaces';
+import type { Direction, Grid } from '../types';
 
-export const COLS = 5;
-export const ROWS = 3;
-
-export type Direction = 'up' | 'down' | 'left' | 'right';
+export const COLUMN_COUNT = 5;
+export const ROW_COUNT = 3;
 
 const DELTA: Record<Direction, [number, number]> = {
     up: [-1, 0],
@@ -12,23 +11,23 @@ const DELTA: Record<Direction, [number, number]> = {
     right: [0, 1],
 };
 
-export type Grid = (number | null)[][];
-
 export function buildGrid(tiles: TileProps[]): Grid {
-    const grid: Grid = Array.from({ length: ROWS }, () => Array<number | null>(COLS).fill(null));
+    const grid: Grid = Array.from({ length: ROW_COUNT }, () =>
+        Array<number | null>(COLUMN_COUNT).fill(null)
+    );
 
     let row = 0;
     let col = 0;
 
     tiles.forEach((tile, index) => {
-        while (row < ROWS && grid[row][col] !== null) {
+        while (row < ROW_COUNT && grid[row][col] !== null) {
             col++;
-            if (col === COLS) {
+            if (col === COLUMN_COUNT) {
                 col = 0;
                 row++;
             }
         }
-        if (row >= ROWS) return;
+        if (row >= ROW_COUNT) return;
 
         grid[row][col] = index;
         if (tile.size === 'big') {
@@ -38,7 +37,7 @@ export function buildGrid(tiles: TileProps[]): Grid {
         }
 
         col++;
-        if (col === COLS) {
+        if (col === COLUMN_COUNT) {
             col = 0;
             row++;
         }
@@ -48,23 +47,23 @@ export function buildGrid(tiles: TileProps[]): Grid {
 }
 
 export function tileAtCell(grid: Grid, cell: number): number | null {
-    const row = Math.floor(cell / COLS);
-    const col = cell % COLS;
+    const row = Math.floor(cell / COLUMN_COUNT);
+    const col = cell % COLUMN_COUNT;
     return grid[row]?.[col] ?? null;
 }
 
 export function move(grid: Grid, cell: number, direction: Direction): number | null {
-    const row = Math.floor(cell / COLS);
-    const col = cell % COLS;
+    const row = Math.floor(cell / COLUMN_COUNT);
+    const col = cell % COLUMN_COUNT;
     const current = grid[row]?.[col] ?? null;
     const [dr, dc] = DELTA[direction];
 
     let r = row + dr;
     let c = col + dc;
 
-    while (r >= 0 && r < ROWS && c >= 0 && c < COLS) {
+    while (r >= 0 && r < ROW_COUNT && c >= 0 && c < COLUMN_COUNT) {
         const tile = grid[r][c];
-        if (tile !== null && tile !== current) return r * COLS + c;
+        if (tile !== null && tile !== current) return r * COLUMN_COUNT + c;
         r += dr;
         c += dc;
     }
@@ -75,12 +74,12 @@ export function move(grid: Grid, cell: number, direction: Direction): number | n
 export function gridRows(grid: Grid): number[][] {
     return grid
         .map((rowTiles, row) =>
-            rowTiles.filter(
-                (tile, col): tile is number =>
-                    tile !== null &&
-                    (col === 0 || rowTiles[col - 1] !== tile) &&
-                    (row === 0 || grid[row - 1][col] !== tile)
-            )
+            rowTiles.filter((tile, col): tile is number => {
+                if (tile === null) return false;
+                const continuesFromLeft = col > 0 && rowTiles[col - 1] === tile;
+                const continuesFromTop = row > 0 && grid[row - 1][col] === tile;
+                return !continuesFromLeft && !continuesFromTop;
+            })
         )
         .filter((rowTiles) => rowTiles.length > 0);
 }

@@ -1,41 +1,54 @@
 import '../style/components/games.css';
 
 interface GameProps {
-    img: string;
+    image: string;
     name: string;
     selected: boolean;
     rating: number;
     icon?: string | string[];
 }
 
-export default function Game({ img, name, selected, rating, icon }: GameProps) {
+const MAX_RATING = 5;
+
+function starFor(rating: number, position: number): string {
+    if (rating >= position + 1) return 'star-full';
+    if (rating >= position + 0.5) return 'star-half';
+    return 'star-empty';
+}
+
+function toPlatformList(icon?: string | string[]): string[] {
+    if (!icon) return [];
+    return Array.isArray(icon) ? icon : [icon];
+}
+
+export default function Game({ image, name, selected, rating, icon }: GameProps) {
+    const platforms = toPlatformList(icon);
+
     return (
         <div className={`game-container ${selected ? 'game-selected' : ''}`}>
-            <img className="game-image" src={img} />
+            <img className="game-image" src={image} alt={name} />
             <p>{name}</p>
-            <div style={{ display: 'flex' }}>
-                {Array.from({ length: 5 }, (_, i) => {
-                    const star: string =
-                        rating >= i + 1
-                            ? 'star-full'
-                            : rating >= i + 0.5
-                              ? 'star-half'
-                              : 'star-empty';
-
-                    return <img key={i} className="game-rating" src={`icons/${star}.png`} />;
-                })}
+            <div className="game-rating-row">
+                {Array.from({ length: MAX_RATING }, (_, position) => (
+                    <img
+                        key={position}
+                        className="game-rating"
+                        src={`icons/${starFor(rating, position)}.png`}
+                        alt=""
+                    />
+                ))}
             </div>
-            {icon && icon.length > 0 && !Array.isArray(icon) && (
-                <img className="game-icon" src={`icons/${icon}.png`} />
+            {platforms.length === 1 && (
+                <img className="game-icon" src={`icons/${platforms[0]}.png`} alt={platforms[0]} />
             )}
-            {icon && icon.length > 0 && Array.isArray(icon) && (
-                <div className="game-icon-container">
-                    {icon.map((value, index) => (
+            {platforms.length > 1 && (
+                <div className="game-icon-list">
+                    {platforms.map((platform) => (
                         <img
-                            key={index}
-                            style={{ position: 'relative' }}
-                            className="game-icons"
-                            src={`icons/${value}.png`}
+                            key={platform}
+                            className="game-icon-list-item"
+                            src={`icons/${platform}.png`}
+                            alt={platform}
                         />
                     ))}
                 </div>

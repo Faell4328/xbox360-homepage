@@ -1,4 +1,4 @@
-#notification-container{
+#notification{
     z-index: 99999999;
     position: absolute;
     bottom: 40px;
@@ -13,23 +13,23 @@
     transition: opacity 1s ease 0s;
 }
 
-#notification-container.is-visible{
+#notification.notification-visible{
     opacity: 1;
 
     transition: opacity 0.2s ease 0;
 }
 
-#notification-container.is-visible #notification-text{
+#notification.notification-visible #notification-text{
     opacity: 1;
 
     transition: opacity 0.2s ease 0.7s;
 }
 
-#notification-container.is-visible #notification-container-text{
+#notification.notification-visible #notification-body{
     width: 550px;
 }
 
-#notification-image{
+#notification-orb{
     position: absolute;
     margin-left: -10px;
     width: auto;
@@ -39,14 +39,14 @@
     transition: transform 1s ease 1s;
 }
 
-#notification-container.is-visible #notification-image{
+#notification.notification-visible #notification-orb{
     transform: scale(1, 1);
 
     transition: transform 0.5s ease 0s;
 }
 
 
-#notification-container-text{
+#notification-body{
     display: flex;
     align-items: center;
     padding-left: 70px;
