@@ -12,9 +12,22 @@
     width: 20%;
     height: 70%;
     font-size: 18px;
-
     background-color: #ccc;
+    opacity: 1;
+
+    transition: opacity 0.5s ease 0.3s;
+
+    @starting-style{
+        opacity: 0;
+    }
 }
+
+.theme-hidden{
+    opacity: 0;
+
+    transition: opacity 0.5s ease;
+}
+
 .theme-container header{
     font-size: 22px;
     font-weight: bold;
@@ -31,35 +44,10 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #aaa;
-    transition: all 0.5s ease 0s;
+
+    transition: background-color 0.5s ease 0s;
 }
 
 .theme-option-selected{
     background-color: #080;
-}
-
-.theme-show{
-    animation: theme-show 0.5s ease 0s forwards;
-}
-
-.theme-hidden{
-    animation: theme-hidden 0.5s ease 0s forwards;
-}
-
-@keyframes theme-show{
-    from{
-        opacity: 0;
-    }
-    to{
-        opacity: 1;
-    }
-}
-
-@keyframes theme-hidden{
-    from{
-        opacity: 1;
-    }
-    to{
-        opacity: 0;
-    }
 }

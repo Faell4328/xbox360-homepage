@@ -162,20 +162,25 @@ export default function DvdScreenSave({ closing, onClosing, onClosed, bIconRef }
         <div className="dvd-page">
             <div
                 onAnimationEnd={(event) => {
-                    if (event.animationName == 'dvd-expand') {
+                    if (event.animationName == 'dvd-start-crt') {
                         setInitDvd(true);
                     }
-                    if (closing && event.target === event.currentTarget) onClosed(false);
                 }}
-                className={'dvd-container' + (closing ? ' dvd-hidden' : ' dvd-show')}
+                onTransitionEnd={(event) => {
+                    if (
+                        closing &&
+                        event.target === event.currentTarget &&
+                        event.propertyName == 'opacity'
+                    ) {
+                        onClosed(false);
+                    }
+                }}
+                className={`dvd-container ${!closing ? ' dvd-show' : ''}`}
             >
                 <div className="dvd-background-screen"></div>
-                <div
-                    ref={backgroundRef}
-                    className={'dvd-screen' + (closing ? ' dvd-reducer' : ' dvd-expand')}
-                >
+                <div ref={backgroundRef} className={`dvd-screen ${!closing ? ' dvd-start-crt' : ''}`}>
                     <img
-                        className={'dvd-header' + (closing ? ' dvd-hidden' : ' dvd-show-header')}
+                        className="dvd-header"
                         ref={headerRef}
                         src="/dvd-screensave/head1.png"
                     />

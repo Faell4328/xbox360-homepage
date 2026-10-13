@@ -37,15 +37,19 @@ export default function Menu({ closing, onConfirm, onReject, onClosed }: MenuPro
     }, [closing, selectedIndex, onConfirm, onReject]);
 
     return (
-        <div id="menu" className={closing ? 'background-hidden' : ''}>
+        <div id="menu" className={`${!closing ? 'menu-open' : ''}`}>
             <div
                 id="container-menu"
-                className={closing ? 'closing' : ''}
-                onAnimationEnd={(event) => {
-                    if (closing && event.target === event.currentTarget) onClosed(true);
+                onTransitionEnd={(event) => {
+                    if (
+                        closing &&
+                        event.target === event.currentTarget &&
+                        event.propertyName === 'width'
+                    )
+                        onClosed(true);
                 }}
             >
-                <div id="container-menu-elements" className={closing ? 'closing' : ''}>
+                <div id="container-menu-elements">
                     <header>
                         <h3>Website exclusively for computers</h3>
                     </header>

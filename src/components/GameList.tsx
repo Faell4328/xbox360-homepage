@@ -131,8 +131,8 @@ export default function GameList({ closing, onClosing, onClosed, bIconRef }: Gam
 
     return (
         <div
-            className={'games-page' + (closing ? ' games-hidden' : ' games-show')}
-            onAnimationEnd={(event) => {
+            className={`games-page ${closing ? ' games-hidden' : ''}`}
+            onTransitionEnd={(event) => {
                 if (closing && event.target === event.currentTarget) onClosed(false);
             }}
         >

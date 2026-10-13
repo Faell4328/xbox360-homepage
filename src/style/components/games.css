@@ -8,6 +8,18 @@
     justify-content: center;
     align-items: center;
     padding: 60px;
+
+    transition: transform 1s ease 0.5s;
+
+    @starting-style{
+        transform: translateX(100dvw);
+    }
+}
+
+.games-hidden{
+    opacity: 0;
+
+    transition: opacity 0.5s ease
 }
 
 .game-list-container{
@@ -30,7 +42,7 @@
     background-color: #fff;
     padding: 20px;
 
-    transition: transform 0.4s ease 0s;
+    transition: transform 0.3s ease;
 }
 
 .game-container p{
@@ -72,40 +84,4 @@
 .game-rating{
     width: 15px;
     height: 15px;
-}
-
-.games-show{
-    animation: games-show 1.4s ease 0s forwards;
-}
-
-.games-hidden{
-    animation: games-hidden 0.5s ease 0s forwards;
-}
-
-@keyframes games-show{
-    0%{
-        opacity: 0;
-        left: calc(100dvw);
-    }
-    5%{
-        opacity: 1;
-        left: calc(100dvw);
-    }
-    20%{
-        opacity: 1;
-        left: calc(100dvw);
-    }
-    100%{
-        opacity: 1;
-        left: 0px;
-    }
-}
-
-@keyframes games-hidden{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-    }
 }

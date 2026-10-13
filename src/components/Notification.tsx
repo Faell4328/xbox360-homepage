@@ -25,25 +25,15 @@ export default function Notification({ message, nonce }: NotificationProps) {
     }, [nonce]);
 
     return (
-        <div id="notification-container" className={visible ? 'is-visible' : ''}>
+        <div id="notification-container" className={visible ? 'is-visible' : undefined}>
             <img
                 key={`image-${nonce}`}
                 id="notification-image"
-                className={visible ? 'pulse-animation' : ''}
                 src="/xbox-orb.png"
                 loading="eager"
             />
-            <div
-                key={`text-${nonce}`}
-                id="notification-container-text"
-                className={visible ? 'expand-animation' : 'reducer-animation'}
-            >
-                <p
-                    id="notification-text"
-                    className={visible ? 'show-animation' : 'hidden-animation'}
-                >
-                    {message}
-                </p>
+            <div key={`text-${nonce}`} id="notification-container-text">
+                <p id="notification-text">{message}</p>
             </div>
         </div>
     );

@@ -76,27 +76,27 @@ export default function ChangeTheme({
     return (
         <div className="theme-page">
             <div
-                onAnimationEnd={(event) => {
+                onTransitionEnd={(event) => {
                     if (closing && event.target === event.currentTarget) onClosed(false);
                 }}
-                className={`theme-container ${closing ? 'theme-hidden' : 'theme-show'}`}
+                className={`theme-container ${closing ? ' theme-hidden' : ''}`}
             >
                 <header>
                     <h3>Select Theme</h3>
                 </header>
-                <div className={`theme-options ${optionSelect == 0 && 'theme-option-selected'}`}>
+                <div className={`theme-options ${optionSelect == 0 ? ' theme-option-selected' : ''}`}>
                     Xbox
                 </div>
-                <div className={`theme-options ${optionSelect == 1 && 'theme-option-selected'}`}>
+                <div className={`theme-options ${optionSelect == 1 ? ' theme-option-selected' : ''}`}>
                     Spectrum
                 </div>
-                <div className={`theme-options ${optionSelect == 2 && 'theme-option-selected'}`}>
+                <div className={`theme-options ${optionSelect == 2 ? ' theme-option-selected' : ''}`}>
                     Day
                 </div>
-                <div className={`theme-options ${optionSelect == 3 && 'theme-option-selected'}`}>
+                <div className={`theme-options ${optionSelect == 3 ? ' theme-option-selected' : ''}`}>
                     Night
                 </div>
-                <div className={`theme-options ${optionSelect == 4 && 'theme-option-selected'}`}>
+                <div className={`theme-options ${optionSelect == 4 ? ' theme-option-selected' : ''}`}>
                     Hajime no Ippo
                 </div>
             </div>

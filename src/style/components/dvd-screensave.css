@@ -12,6 +12,15 @@
     position: relative;
     height: 85dvh;
     aspect-ratio: 800 / 520;
+    opacity: 0;
+
+    transition: opacity 0.5s ease;
+}
+
+.dvd-show{
+    opacity: 1;
+
+    transition: opacity 0.5s ease;
 }
 
 .dvd-crt{
@@ -44,8 +53,11 @@
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    opacity: 0;
-    animation: dvd-crt-show 0.2s ease 2.9s forwards;
+    opacity: 1;
+
+    transition: opacity 0.2s ease 2.9s;
+
+
     background:
         repeating-linear-gradient(
             to bottom,
@@ -63,47 +75,32 @@
             rgba(0, 0, 255, 0.06) 2px,
             rgba(0, 0, 255, 0.06) 3px
         );
+
+    @starting-style{
+        opacity: 0;
+    }
 }
 
 .dvd-header{
-    opacity: 0;
+    opacity: 1;
     width: 90px;
+
+    transition: opacity 1s ease 3s;
 
     transform: translate(var(--x), var(--y));
     filter: drop-shadow(2px 0 rgba(255, 0, 0, 0.55))
         drop-shadow(-2px 0 rgba(0, 255, 255, 0.55));
-}
 
-.dvd-expand{
-    animation: dvd-expand 2s ease 1s forwards, dvd-show 2s ease 0s forwards;
-}
-
-.dvd-reducer{
-    animation: dvd-hidden 0.4s ease 0s forwards;
-}
-
-.dvd-show-header{
-    animation: dvd-show 1s ease 3s forwards;
-}
-
-.dvd-show{
-    animation: dvd-show 0.5s ease 0s forwards;
-}
-
-.dvd-hidden{
-    animation: dvd-hidden 0.5s ease 0s forwards;
-}
-
-@keyframes dvd-crt-show{
-    0%{
+    @starting-style{
         opacity: 0;
     }
-    100%{
-        opacity: 1;
-    }
 }
 
-@keyframes dvd-expand{
+.dvd-start-crt{
+    animation: dvd-start-crt 2s ease 1s forwards
+}
+
+@keyframes dvd-start-crt{
     0%{
         background-color: transparent;
     }
@@ -129,52 +126,5 @@
     100%{
         background-color: #dff5ff;
         transform: scale(1, 1);
-    }
-}
-
-@keyframes dvd-reducer{
-    0%{
-        background-color: #dff5ff;
-        transform: scale(1, 1);
-    }
-    20%{
-        background-color: #dff5ff;
-        transform: scale(1, 0.008);
-    }
-    50%{
-        background-color: #dff5ff;
-        transform: scale(0.008, 0.008);
-    }
-    80%{
-        background-color: transparent;
-        transform: scale(0.008, 0.008);
-    }
-    92%{
-        background-color: #dff5ff;
-    }
-    95%{
-        background-color: transparent;
-        transform: scale(1, 1);
-    }
-    100%{
-        background-color: transparent;
-    }
-}
-
-@keyframes dvd-show{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
-}
-
-@keyframes dvd-hidden{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
     }
 }

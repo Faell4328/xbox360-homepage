@@ -27,8 +27,8 @@ export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: Abou
 
     return (
         <div
-            className={`about-page ${closing ? 'about-hidden' : 'about-show'}`}
-            onAnimationEnd={(event) => {
+            className={`about-page ${closing ? 'about-hidden' : ''}`}
+            onTransitionEnd={(event) => {
                 if (closing && event.target === event.currentTarget) onClosed(false);
             }}
         >

@@ -5,16 +5,28 @@
 
     display: flex;
     align-items: center;
-    width: 500px;
+    width: 550px;
     height: 70px;
 
     opacity: 0;
 
-    transition: all 1s ease 0s;
+    transition: opacity 1s ease 0s;
 }
 
 #notification-container.is-visible{
     opacity: 1;
+
+    transition: opacity 0.2s ease 0;
+}
+
+#notification-container.is-visible #notification-text{
+    opacity: 1;
+
+    transition: opacity 0.2s ease 0.7s;
+}
+
+#notification-container.is-visible #notification-container-text{
+    width: 550px;
 }
 
 #notification-image{
@@ -22,7 +34,17 @@
     margin-left: -10px;
     width: auto;
     height: 85px;
+
+    transform: scale(0.5, 0.5);
+    transition: transform 1s ease 1s;
 }
+
+#notification-container.is-visible #notification-image{
+    transform: scale(1, 1);
+
+    transition: transform 0.5s ease 0s;
+}
+
 
 #notification-container-text{
     display: flex;
@@ -30,80 +52,19 @@
     padding-left: 70px;
     background-color: #555;
     border: 1px solid #333;
-    max-width: 500px;
+    max-width: 550px;
+    width: 0px;
     height: 70px;
     border-radius: 60px;
+
+    transition: width 0.5s ease 0.2s;
 }
 
 #notification-text{
     color: #fff;
     font-size: 18px;
     padding: 20px;
-}
+    opacity: 0;
 
-.pulse-animation{
-    animation: pulse 0.5s ease 0s 1;
-}
-
-.expand-animation{
-    animation: expand 0.5s ease 0s 1 forwards;
-}
-.reducer-animation{
-    animation: reducer 0.5s ease 0s 1 forwards;
-}
-
-.show-animation{
-    animation: show 0.5s ease 0s 1 forwards;
-}
-.hidden-animation{
-    animation: hidden 0.5s ease 0s 1 forwards;
-}
-
-@keyframes pulse{
-    0%{
-        transform: scale(0.5, 0.5);
-    }
-    100%{
-        transform: scale(1, 1);
-    }
-}
-
-@keyframes expand{
-    from {
-        width: 0px;
-    }
-    to{
-        width: 500px;
-    }
-}
-@keyframes reducer{
-    from {
-        width: 500px;
-    }
-    to{
-        width: 0px;
-    }
-}
-
-@keyframes show{
-    0%{
-        opacity: 0;
-    }
-    90%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
-}
-@keyframes hidden{
-    0%{
-        opacity: 1;
-    }
-    5%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 0;
-    }
+    transition: opacity 0.2s ease;
 }
