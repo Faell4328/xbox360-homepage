@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { playSound } from './sounds';
+import { playSound } from '../lib/sounds';
 import { useTimeouts } from './useTimeouts';
 import type { DiscStatus } from '../types';
 

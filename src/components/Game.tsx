@@ -1,11 +1,8 @@
 import '../style/components/games.css';
+import type { Game as GameData } from '../interfaces';
 
-interface GameProps {
-    image: string;
-    name: string;
+interface GameProps extends GameData {
     selected: boolean;
-    rating: number;
-    icon?: string | string[];
 }
 
 const MAX_RATING = 5;

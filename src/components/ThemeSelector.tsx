@@ -1,8 +1,8 @@
 import '../style/components/theme-selector.css';
 import { useEffect, useState } from 'react';
-import { playSound } from './sounds';
-import { useBackButton } from './useBackButton';
-import { verticalStep } from '../keys';
+import { playSound } from '../lib/sounds';
+import { useBackButton } from '../hooks/useBackButton';
+import { verticalStep } from '../lib/keys';
 import type { ScreenProps } from '../interfaces';
 
 const THEMES = [

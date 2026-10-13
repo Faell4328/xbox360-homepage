@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { playSound } from './sounds';
-import { verticalStep } from '../keys';
+import { playSound } from '../lib/sounds';
+import { verticalStep } from '../lib/keys';
 
 const OPTIONS = ['I am on a computer', 'I am on a mobile device'] as const;
 

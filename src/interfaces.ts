@@ -10,6 +10,13 @@ export interface TileProps {
     open?: 'games' | 'dvd-screensaver' | 'about-me' | 'theme-selector';
 }
 
+export interface Game {
+    name: string;
+    image: string;
+    icon: string | string[];
+    rating: number;
+}
+
 export interface ScreenProps {
     closing: boolean;
     onClosing: (source: string) => void;

@@ -1,5 +1,5 @@
 import { useEffect, type RefObject } from 'react';
-import { flash } from './dom';
+import { flash } from '../lib/dom';
 
 interface UseBackButtonOptions {
     closing: boolean;

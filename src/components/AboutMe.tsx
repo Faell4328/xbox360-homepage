@@ -1,5 +1,5 @@
 import '../style/components/about-me.css';
-import { useBackButton } from './useBackButton';
+import { useBackButton } from '../hooks/useBackButton';
 import type { ScreenProps } from '../interfaces';
 
 export default function AboutMe({ closing, onClosing, onClosed, bIconRef }: ScreenProps) {

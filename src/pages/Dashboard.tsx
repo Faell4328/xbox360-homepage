@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { playSound } from '../components/sounds';
+import { playSound } from '../lib/sounds';
 import Menu from '../components/Menu';
 import Notification from '../components/Notification';
 import Tile from '../components/Tile';
@@ -8,28 +8,16 @@ import Controls from '../components/Controls';
 import DvdScreensaver from '../components/DvdScreensaver';
 import AboutMe from '../components/AboutMe';
 import ThemeSelector from '../components/ThemeSelector';
-import { buildGrid, gridRows, move, tileAtCell } from '../components/grid';
-import { flash } from '../components/dom';
-import { useDiscTray } from '../components/useDiscTray';
-import { useTimeouts } from '../components/useTimeouts';
-import { directionOf } from '../keys';
-import type { TileProps } from '../interfaces';
+import { buildGrid, gridRows, move, tileAtCell } from '../lib/grid';
+import { flash } from '../lib/dom';
+import { useDiscTray } from '../hooks/useDiscTray';
+import { useTimeouts } from '../hooks/useTimeouts';
+import { directionOf } from '../lib/keys';
+import { TILES, TRAY_TILE } from '../content/tiles';
 import type { ScreenStatus } from '../types';
 
 const A_RELEASE_DELAY = 500;
 const REDIRECT_DELAY = 3000;
-
-const TILES: TileProps[] = [
-    { size: 'small', text: 'Open Tray', icon: '/disc-tray.png' },
-    { size: 'small', text: 'Change Theme', icon: '/theme-selector.png', open: 'theme-selector' },
-    { size: 'small', image: '/youtube.png', redirect: 'https://www.youtube.com/@faell4328' },
-    { size: 'big', image: '/blog.png', redirect: 'https://rhafaell.com.br' },
-    { size: 'small', text: 'Favorites Games', icon: '/mygames.png', open: 'games' },
-    { size: 'small', text: 'About Me', icon: '/about.png', open: 'about-me' },
-    { size: 'small', image: '/github.png', redirect: 'https://github.com/Faell4328' },
-];
-
-const TRAY_TILE = 0;
 
 const GRID = buildGrid(TILES);
 const LAYOUT = gridRows(GRID);

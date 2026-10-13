@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { playSound } from './sounds';
+import { playSound } from '../lib/sounds';
 
 interface NotificationProps {
     message: string;

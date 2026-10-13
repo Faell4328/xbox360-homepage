@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import '../style/components/dvd-screensaver.css';
-import { playAudio } from './sounds';
-import { useBackButton } from './useBackButton';
-import { useTimeouts } from './useTimeouts';
+import { playAudio } from '../lib/sounds';
+import { useBackButton } from '../hooks/useBackButton';
+import { useTimeouts } from '../hooks/useTimeouts';
 import type { ScreenProps } from '../interfaces';
 
 const LOGO_IDLE = '/dvd-screensaver/head1.png';

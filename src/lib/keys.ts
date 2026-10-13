@@ -1,4 +1,4 @@
-import type { Direction } from './types';
+import type { Direction } from '../types';
 
 const DIRECTION_KEYS: Record<string, Direction> = {
     ArrowUp: 'up',
